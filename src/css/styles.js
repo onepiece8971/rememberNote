@@ -7,6 +7,7 @@ const colors = {
   main: 'rgba(106, 190, 167, 0.87)',
   gray: 'rgba(94, 105, 115, 0.87)',
   pink: 'rgba(252, 200, 194, 0.87)',
+  white: '#fff',
 };
 
 // 透明度
@@ -59,13 +60,11 @@ margin: ${convertSize.getHeight(10)}px 0 0;
 const CardFlatListView = styled.View`
 flex-flow: row wrap;
 `;
-const CardRightView = styled.View`
+const CardView = styled.View`
 width: ${convertSize.getWidth(170)}px;
 height: ${convertSize.getHeight(160)}px;
 margin-bottom: ${convertSize.getHeight(10)}px;
-`;
-const CardLeftView = CardRightView.extend`
-margin-right: ${convertSize.getWidth(11)}px;
+margin-right: ${props => props.isLeft ? convertSize.getWidth(11) : 0}px;
 `;
 const CardTopImage = styled.Image`
 width: 100%;
@@ -111,7 +110,23 @@ const CardBottomView = styled.View`
 width: 100%;
 height: ${convertSize.getHeight(20)}px;
 background: ${colors.gray};
+padding: 0 ${convertSize.getWidth(10)}px;
+flex-direction: row;
+align-items: center;
 `;
+const CardBottomText = styled.Text`
+font-family: Microsoft YaHei;
+font-size: ${convertSize.getWidth(8)}px;
+color: ${colors.white};
+margin: 0 ${convertSize.getWidth(2)}px;
+`;
+const CardBottomIconView = styled.View`
+width: ${convertSize.getWidth(35)}px;
+margin-left: ${convertSize.getWidth(72)}px;
+flex-direction: row;
+justify-content: space-between;
+`;
+
 // 导出
 export {
   AppStatusBar,
@@ -121,8 +136,7 @@ export {
   CarouselImage,
   CardsView,
   CardFlatListView,
-  CardRightView,
-  CardLeftView,
+  CardView,
   CardTopImage,
   CardMiddleView,
   CardMiddleImage,
@@ -131,4 +145,6 @@ export {
   CardMiddleBottomText,
   CardMiddleRightText,
   CardBottomView,
+  CardBottomText,
+  CardBottomIconView,
 }
