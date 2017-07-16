@@ -1,0 +1,33 @@
+{
+  "name": "rememberNote",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "test": "jest",
+    "postinstall": "rndebugger-open"
+  },
+  "dependencies": {
+    "react": "16.0.0-alpha.6",
+    "react-native": "0.44.2",
+    "react-native-button": "^2.0.0",
+    "react-native-svg": "5.1.8",
+    "react-redux": "^5.0.5",
+    "redux": "^3.7.1",
+    "redux-actions": "^2.2.1",
+    "redux-thunk": "^2.2.0",
+    "styled-components": "^2.1.1"
+  },
+  "devDependencies": {
+    "babel-jest": "20.0.3",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react-native": "2.1.0",
+    "jest": "20.0.4",
+    "react-native-debugger-open": "^0.3.11",
+    "react-test-renderer": "16.0.0-alpha.6",
+    "redux-devtools-extension": "^2.13.2"
+  },
+  "jest": {
+    "preset": "react-native"
+  }
+}

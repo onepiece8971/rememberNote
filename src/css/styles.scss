@@ -1,0 +1,14 @@
+// 颜色
+$mainColor: #6ABEA7;
+
+// 透明度
+$opacity87: 0.87;
+
+$width: 375px;
+$height: 667px;
+
+TopView {
+  height: 74px / $height * 100%;
+  background: $mainColor;
+  opacity: $opacity87;
+}
