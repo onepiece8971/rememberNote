@@ -4,16 +4,16 @@ import {Dimensions} from 'react-native';
 // 尺寸
 const size = {width: 375, height: 667};
 
-export default class ConvertSize {
+export default class CS {
 
-  static getWidth(w) {
+  static w(w) {
     if (!this.width) {
       this.width = Dimensions.get('window').width;
     }
     return w * (this.width / size.width);
   }
 
-  static getHeight(h) {
+  static h(h) {
     if (!this.height) {
       this.height = Dimensions.get('window').height;
     }
