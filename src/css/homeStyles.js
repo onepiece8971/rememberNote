@@ -31,7 +31,7 @@ const CarouselImage = styled.Image.attrs({
   source : require('./img/carouse.jpg'),
 })`
 width: 100%;
-height: ${CS.h(165)}px;
+height: ${CS.h(160)}px;
 `;
 
 // 卡片集
@@ -39,7 +39,7 @@ const CardsView = styled.View`
 width: 100%;
 height: ${CS.h(330)}px;
 padding: 0 ${CS.w(12)}px;
-margin: ${CS.h(10)}px 0 0;
+margin-top: ${CS.h(10)}px;
 `;
 const CardFlatListView = styled.View`
 flex-flow: row wrap;
@@ -111,48 +111,6 @@ flex-direction: row;
 justify-content: space-between;
 `;
 
-//底部导航
-const BottomNavView = styled.View`
-width: 100%;
-height: ${CS.h(70)}px;
-`;
-const BottomNavTopView = styled.View`
-width: 100%;
-height: ${CS.h(10)}px;
-flex-direction: row;
-`;
-const BottomNavTopSmallView = styled.View`
-width: ${CS.w(125)}px;
-height: 100%;
-align-items: center;
-`;
-const BottomNavFootView = styled.View`
-width: 100%;
-height: ${CS.h(60)}px;
-flex-direction: row;
-`;
-const BottomNavFootSmallView = styled.View`
-width: ${CS.w(125)}px;
-height: 100%;
-background: ${props => props.background || colors.main};
-align-items: center;
-justify-content: center;
-`;
-const BottomNavTopText = styled.Text`
-font-family: Xingkai-SC-Bold;
-font-size: 10px;
-color: ${colors.white038};
-`;
-const BottomNavMiddleText = styled.Text`
-font-size: 18px;
-color: ${colors.white058};
-line-height: 13;
-`;
-const BottomNavFootText = styled.Text`
-font-size: 12px;
-color: ${colors.white};
-`;
-
 // 导出
 export {
   TopView,
@@ -173,13 +131,4 @@ export {
   CardBottomView,
   CardBottomText,
   CardBottomIconView,
-
-  BottomNavView,
-  BottomNavTopView,
-  BottomNavTopSmallView,
-  BottomNavFootView,
-  BottomNavFootSmallView,
-  BottomNavTopText,
-  BottomNavMiddleText,
-  BottomNavFootText
 }

@@ -1,5 +1,8 @@
 import React from 'react';
 import styled from 'styled-components/native';
+import CS from './convertSize';
+
+import {Link} from 'react-router-native'
 
 // 颜色集合
 const colors = {
@@ -20,8 +23,70 @@ const AppStatusBar = styled.StatusBar.attrs({
   backgroundColor: colors.main
 })``;
 
+// 导航页View
+const MainView = styled.View`
+height: 100%;
+`;
+const OccupiedView = styled.View`
+flex:1
+`;
+
+//底部导航
+const BottomNavView = styled.View`
+width: 100%;
+height: ${CS.h(68)}px;
+`;
+const BottomNavTopView = styled.View`
+width: 100%;
+height: ${CS.h(10)}px;
+flex-direction: row;
+`;
+const BottomNavTopSmallView = styled.View`
+width: ${CS.w(125)}px;
+height: 100%;
+align-items: center;
+`;
+const BottomNavFootView = styled.View`
+width: 100%;
+height: ${CS.h(58)}px;
+flex-direction: row;
+`;
+const BottomNavFootSmallView = styled.View`
+width: ${CS.w(125)}px;
+height: 100%;
+background: ${props => props.background || colors.main};
+align-items: center;
+justify-content: center;
+`;
+const BottomNavTopText = styled.Text`
+font-family: Xingkai-SC-Bold;
+font-size: 10px;
+color: ${colors.white038};
+`;
+const BottomNavMiddleText = styled.Text`
+font-size: 18px;
+color: ${colors.white058};
+line-height: 13;
+`;
+const BottomNavFootText = styled.Text`
+font-size: 12px;
+color: ${colors.white};
+`;
+
 // 导出
 export {
   colors,
   AppStatusBar,
+
+  MainView,
+  OccupiedView,
+
+  BottomNavView,
+  BottomNavTopView,
+  BottomNavTopSmallView,
+  BottomNavFootView,
+  BottomNavFootSmallView,
+  BottomNavTopText,
+  BottomNavMiddleText,
+  BottomNavFootText
 }
