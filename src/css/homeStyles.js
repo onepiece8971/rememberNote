@@ -8,7 +8,8 @@ const TopView = styled.View`
 height: ${CS.h(74)}px;
 background: ${colors.main};
 padding: 0 ${CS.w(12)}px;
-justify-content: center;
+align-items: center;
+flex-direction: row;
 `;
 const SearchView = styled.View`
 width: ${CS.w(320)}px;
@@ -17,6 +18,7 @@ background: #fff;
 flex-direction: row;
 align-items: center;
 padding-left: ${CS.w(6)}px;
+margin-right: ${CS.w(12)}px;
 `;
 const SearchInput = styled.TextInput.attrs({
   underlineColorAndroid: "transparent"
@@ -65,7 +67,7 @@ const CardMiddleImage = styled.Image.attrs({
 })`
 width: ${CS.w(20)}px;
 height: ${CS.h(20)}px;
-border-radius: ${CS.w(20)}px;
+border-radius: ${CS.w(10)}px;
 margin: 0 ${CS.w(10)}px;
 `;
 const CardMiddleTextView = styled.View`

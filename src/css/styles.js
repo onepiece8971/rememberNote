@@ -2,8 +2,6 @@ import React from 'react';
 import styled from 'styled-components/native';
 import CS from './convertSize';
 
-import {Link} from 'react-router-native'
-
 // 颜色集合
 const colors = {
   main: 'rgba(106, 190, 167, 0.87)',
@@ -26,6 +24,7 @@ const AppStatusBar = styled.StatusBar.attrs({
 // 导航页View
 const MainView = styled.View`
 height: 100%;
+background: #fff;
 `;
 const OccupiedView = styled.View`
 flex:1
@@ -73,6 +72,17 @@ font-size: 12px;
 color: ${colors.white};
 `;
 
+// 右侧滑动菜单
+const MenuScrollView = styled.ScrollView.attrs({
+  scrollsToTop: false
+})`
+flex: 1;
+width: 100%;
+height: 100%;
+backgroundColor: ${colors.main};
+padding: 20px;
+`;
+
 // 导出
 export {
   colors,
@@ -88,5 +98,7 @@ export {
   BottomNavFootSmallView,
   BottomNavTopText,
   BottomNavMiddleText,
-  BottomNavFootText
+  BottomNavFootText,
+
+  MenuScrollView,
 }

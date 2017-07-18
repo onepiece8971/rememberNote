@@ -3,8 +3,8 @@ import {
   Text,
 } from 'react-native';
 
-export default Remember = () => (
+export default Remember = ({isOpen}) => (
   <Text style={{fontSize: 20,}}>
-    Remember
+    Remember{isOpen}
   </Text>
 )
