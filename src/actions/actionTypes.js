@@ -1,11 +1,7 @@
 const INCREMENT = 'INCREMENT';
 const DECREMENT = 'DECREMENT';
 
-const SIDEMENU = 'SIDEMENU';
-
 export {
   INCREMENT,
   DECREMENT,
-
-  SIDEMENU
 }

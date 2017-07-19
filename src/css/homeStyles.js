@@ -3,31 +3,6 @@ import styled from 'styled-components/native';
 import CS from './convertSize';
 import {colors} from './styles';
 
-// 顶部搜索框
-const TopView = styled.View`
-height: ${CS.h(74)}px;
-background: ${colors.main};
-padding: 0 ${CS.w(12)}px;
-align-items: center;
-flex-direction: row;
-`;
-const SearchView = styled.View`
-width: ${CS.w(320)}px;
-height: ${CS.h(28)}px;
-background: #fff;
-flex-direction: row;
-align-items: center;
-padding-left: ${CS.w(6)}px;
-margin-right: ${CS.w(12)}px;
-`;
-const SearchInput = styled.TextInput.attrs({
-  underlineColorAndroid: "transparent"
-})`
-flex: 1;
-padding: 0;
-margin-left: ${CS.w(6)}px;
-`;
-
 // 轮播图
 const CarouselImage = styled.Image.attrs({
   source : require('./img/carouse.jpg'),
@@ -115,9 +90,6 @@ justify-content: space-between;
 
 // 导出
 export {
-  TopView,
-  SearchView,
-  SearchInput,
   CarouselImage,
 
   CardsView,
