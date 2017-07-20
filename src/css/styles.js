@@ -6,6 +6,7 @@ import CS from './convertSize';
 const colors = {
   main: 'rgba(106, 190, 167, 0.87)',
   gray: 'rgba(94, 105, 115, 0.87)',
+  gray038: 'rgba(94, 105, 115, 0.38)',
   pink: 'rgba(252, 200, 194, 0.87)',
   white: 'rgba(255, 255, 255, 0.87)',
   white058: 'rgba(255, 255, 255, 0.58)',
@@ -14,6 +15,24 @@ const colors = {
 
 // 透明度
 // const opacitys = {main: 0.87};
+
+// 字体
+const fonts = {
+  yaHei: 'Microsoft-YaHei',
+  xingKai: 'Xingkai-SC-Bold',
+  songTi: 'SongTi-SC',
+};
+const YaHeiText = styled.Text`
+font-family: ${fonts.yaHei};
+font-size: 10px;
+color: ${colors.gray};
+`;
+const XingKaiText = YaHeiText.extend`
+font-family: ${fonts.xingKai};
+`;
+const SongTiText = YaHeiText.extend`
+font-family: ${fonts.songTi};
+`;
 
 /* 组件 */
 // 状态栏
@@ -27,7 +46,7 @@ height: 100%;
 background: #fff;
 `;
 const OccupiedView = styled.View`
-flex:1
+flex:1;
 `;
 
 // 顶部搜索框
@@ -82,36 +101,27 @@ background: ${props => props.background || colors.main};
 align-items: center;
 justify-content: center;
 `;
-const BottomNavTopText = styled.Text`
-font-family: Xingkai-SC-Bold;
-font-size: 10px;
+const BottomNavTopText = XingKaiText.extend`
 color: ${colors.white038};
 `;
-const BottomNavMiddleText = styled.Text`
+const BottomNavMiddleText = SongTiText.extend`
 font-size: 18px;
 color: ${colors.white058};
 line-height: 13;
 `;
-const BottomNavFootText = styled.Text`
+const BottomNavFootText = SongTiText.extend`
 font-size: 12px;
 color: ${colors.white};
-`;
-
-// 右侧滑动菜单
-const MenuScrollView = styled.ScrollView.attrs({
-  scrollsToTop: false
-})`
-flex: 1;
-width: 100%;
-height: 100%;
-backgroundColor: ${colors.main};
-padding: 20px;
 `;
 
 // 导出
 export {
   colors,
   AppStatusBar,
+
+  YaHeiText,
+  XingKaiText,
+  SongTiText,
 
   TopView,
   SearchView,
@@ -128,6 +138,4 @@ export {
   BottomNavTopText,
   BottomNavMiddleText,
   BottomNavFootText,
-
-  MenuScrollView,
 }

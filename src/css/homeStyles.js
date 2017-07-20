@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components/native';
 import CS from './convertSize';
-import {colors} from './styles';
+import {colors, YaHeiText} from './styles';
 
 // 轮播图
 const CarouselImage = styled.Image.attrs({
@@ -51,19 +51,13 @@ height: 100%;
 flex:1;
 justify-content: center;
 `;
-const CardMiddleTopText = styled.Text`
-font-family: Microsoft-YaHei;
-font-size: ${CS.w(10)}px;
-color: ${colors.gray};
-`;
-const CardMiddleBottomText = styled.Text`
-font-family: Microsoft-YaHei;
-font-size: ${CS.w(8)}px;
+const CardMiddleTopText = YaHeiText;
+const CardMiddleBottomText = YaHeiText.extend`
+font-size: 8px;
 color: ${colors.main};
 `;
-const CardMiddleRightText = styled.Text`
-font-family: Microsoft-YaHei;
-font-size: ${CS.w(12)}px;
+const CardMiddleRightText = YaHeiText.extend`
+font-size: 12px;
 color: ${colors.pink};
 margin-right: ${CS.w(10)}px;
 `;
@@ -75,9 +69,8 @@ padding: 0 ${CS.w(10)}px;
 flex-direction: row;
 align-items: center;
 `;
-const CardBottomText = styled.Text`
-font-family: Microsoft-YaHei;
-font-size: ${CS.w(8)}px;
+const CardBottomText = YaHeiText.extend`
+font-size: 8px;
 color: ${colors.white};
 margin: 0 ${CS.w(2)}px;
 `;

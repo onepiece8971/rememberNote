@@ -19,13 +19,13 @@ export default class App extends Component {
 import {createStore} from 'redux';
 import {Provider} from 'react-redux';
 import React from 'react';
-import Main from './main';
+import RouterRoot from './routerRoot';
 import reducer from '../reducers/main';
 
 const store = createStore(reducer);
 
 export default App = () => (
   <Provider store={store}>
-    <Main />
+    <RouterRoot />
   </Provider>
 )

@@ -16,7 +16,7 @@ import {
   CardBottomText,
   CardBottomIconView
 } from '../css/homeStyles';
-import Svg,{Path, Polygon} from 'react-native-svg';
+import Svg, {Path, Polygon} from 'react-native-svg';
 import CS from '../css/convertSize';
 
 export default Home = () => {
