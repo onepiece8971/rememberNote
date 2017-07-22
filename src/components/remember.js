@@ -43,7 +43,7 @@ export default Remember = () => {
           </FootTextView>
         </TextView>
         <RightView>
-          <Svg width={CS.w(9)} height={CS.h(12)} viewBox="0 0 9 12">
+          <Svg width={CS.w(12)} height={CS.h(16)} viewBox="0 0 9 12">
             <Polygon points="0 0.00184591254 0 11.9664853 4.47141075 7.97608219 8.99312842 11.9949669 8.99312842 0"
                      fill="rgba(252, 200, 194, 0.58)"/>
           </Svg>
@@ -65,7 +65,7 @@ export default Remember = () => {
           data={data}
           renderItem={_smallView}
           getItemLayout={(data, index) => (
-            {length: CS.h(92), offset: CS.h(92) * index, index}
+            {length: CS.h(120), offset: CS.h(120) * index, index}
           )}
         />
       </ContentView>

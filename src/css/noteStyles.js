@@ -19,13 +19,13 @@ font-size:14;
 `;
 
 const SmallContentView = TopView.extend`
-height: ${CS.h(92)}px;
+height: ${CS.h(120)}px;
 `;
 const SmallView = styled.View`
 flex-direction: row;
 justify-content: space-between;
 align-items: center;
-height: ${CS.h(61)}px;
+height: ${CS.h(80)}px;
 `;
 
 const  CoverImage = styled.Image`
@@ -39,7 +39,7 @@ margin: 0 ${CS.w(12)}px;
 `;
 
 const TitleText = YaHeiText.extend`
-font-size: 14;
+font-size: 16;
 `;
 
 const MiddleTextView = styled.View`
@@ -50,6 +50,7 @@ padding: 0;
 margin: 0;
 `;
 const MiddleText = YaHeiText.extend`
+font-size: 12;
 color: ${colors.gray058};
 `;
 
@@ -59,15 +60,12 @@ padding: 0;
 margin: 0;
 `;
 const FootLeftTex = YaHeiText.extend`
-font-size: 8;
 color: ${colors.pink};
 `;
-const FootRightTex = YaHeiText.extend`
-font-size: 8;
-`;
+const FootRightTex = YaHeiText.extend``;
 
 const RightView = styled.View`
-width: ${CS.w(42)}px;
+width: ${CS.w(49)}px;
 height: 100%;
 align-items: flex-end;
 justify-content: space-between;
@@ -77,10 +75,11 @@ const RightViewButton = styled.TouchableOpacity`
 justify-content: center;
 align-items: center;
 width: 100%;
-height: ${CS.h(19)}px;
+height: ${CS.h(22)}px;
 background: ${colors.gray038};
 `;
 const ButtonText = YaHeiText.extend`
+font-size: 12;
 color: ${colors.white};
 `;
 

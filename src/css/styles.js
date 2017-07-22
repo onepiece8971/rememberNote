@@ -35,7 +35,7 @@ font-family: ${fonts.songTi};
 `;
 
 /* 组件 */
-// 状态栏
+// 状态栏,不占高度
 const AppStatusBar = styled.StatusBar.attrs({
   backgroundColor: colors.main
 })``;
@@ -45,7 +45,7 @@ const MainView = styled.View`
 height: ${CS.getWindowsHeight()}px;
 background: #fff;
 `;
-const OccupiedView = styled.View`
+const Occupied = styled.View`
 flex:1;
 `;
 
@@ -125,7 +125,7 @@ export {
   SearchInput,
 
   MainView,
-  OccupiedView,
+  Occupied,
 
   BottomNavTopView,
   BottomNavTopSmallView,

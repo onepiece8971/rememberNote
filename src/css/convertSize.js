@@ -4,6 +4,9 @@ import {Dimensions} from 'react-native';
 // 尺寸
 const size = {width: 375, height: 667};
 
+// 状态栏高度
+const STATUS_BAR_HEIGHT = 23;
+
 export default class CS {
 
   static w(w) {
@@ -27,7 +30,7 @@ export default class CS {
    */
   static getWindowsHeight() {
     if (!this.windowsHeight) {
-      this.windowsHeight = this.h(size.height - 20);
+      this.windowsHeight = this.h(size.height - STATUS_BAR_HEIGHT);
     }
     return this.windowsHeight;
   }
