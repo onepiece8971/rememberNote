@@ -20,4 +20,16 @@ export default class CS {
     return h * (this.height / size.height);
   }
 
+  /**
+   * 获取排除状态栏后的高度.
+   *
+   * @returns int
+   */
+  static getWindowsHeight() {
+    if (!this.windowsHeight) {
+      this.windowsHeight = this.h(size.height - 20);
+    }
+    return this.windowsHeight;
+  }
+
 }

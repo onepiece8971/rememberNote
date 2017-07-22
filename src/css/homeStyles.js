@@ -8,13 +8,12 @@ const CarouselImage = styled.Image.attrs({
   source : require('./img/carouse.jpg'),
 })`
 width: 100%;
-height: ${CS.h(160)}px;
+height: ${CS.h(162)}px;
 `;
 
 // 卡片集
 const CardsView = styled.View`
-width: 100%;
-height: ${CS.h(330)}px;
+flex: 1;
 padding: 0 ${CS.w(12)}px;
 margin-top: ${CS.h(10)}px;
 `;

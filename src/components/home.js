@@ -16,6 +16,7 @@ import {
   CardBottomText,
   CardBottomIconView
 } from '../css/homeStyles';
+import {BottomTag} from '../components/bottom';
 import Svg, {Path, Polygon} from 'react-native-svg';
 import CS from '../css/convertSize';
 
@@ -85,7 +86,7 @@ export default Home = () => {
     )
   };
   return (
-    <View>
+    <View style={{flex:1}}>
       <CarouselImage />
       <CardsView>
         <FlatList
@@ -96,6 +97,7 @@ export default Home = () => {
           )}
         />
       </CardsView>
+      <BottomTag />
     </View>
   )
 };

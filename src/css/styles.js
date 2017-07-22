@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components/native';
 import CS from './convertSize';
 
@@ -6,6 +5,7 @@ import CS from './convertSize';
 const colors = {
   main: 'rgba(106, 190, 167, 0.87)',
   gray: 'rgba(94, 105, 115, 0.87)',
+  gray058: 'rgba(94, 105, 115, 0.58)',
   gray038: 'rgba(94, 105, 115, 0.38)',
   pink: 'rgba(252, 200, 194, 0.87)',
   white: 'rgba(255, 255, 255, 0.87)',
@@ -42,7 +42,7 @@ const AppStatusBar = styled.StatusBar.attrs({
 
 // 导航页View
 const MainView = styled.View`
-height: 100%;
+height: ${CS.getWindowsHeight()}px;
 background: #fff;
 `;
 const OccupiedView = styled.View`
@@ -75,14 +75,11 @@ margin-left: ${CS.w(6)}px;
 `;
 
 //底部导航
-const BottomNavView = styled.View`
-width: 100%;
-height: ${CS.h(68)}px;
-`;
 const BottomNavTopView = styled.View`
 width: 100%;
 height: ${CS.h(10)}px;
 flex-direction: row;
+justify-content: ${props => props.isRight ? 'flex-end' : 'flex-start'};
 `;
 const BottomNavTopSmallView = styled.View`
 width: ${CS.w(125)}px;
@@ -130,7 +127,6 @@ export {
   MainView,
   OccupiedView,
 
-  BottomNavView,
   BottomNavTopView,
   BottomNavTopSmallView,
   BottomNavFootView,

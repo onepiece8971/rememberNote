@@ -3,10 +3,7 @@ import SideMenu from 'react-native-side-menu';
 import {Router, Route} from 'react-router-native';
 import createHistory from 'history/createMemoryHistory';
 import PropTypes from 'prop-types'
-import {
-  MainView,
-  OccupiedView,
-} from '../css/styles';
+import {MainView} from '../css/styles';
 import CS from '../css/convertSize';
 
 import Menu from './menu';
@@ -49,7 +46,6 @@ export default class Main extends Component {
             <Top toggle={toggle}/>
             <Route exact path="/" component={Home}/>
             <Route exact path="/remember" component={Remember}/>
-            <OccupiedView/>
             <Bottom/>
           </MainView>
         </Router>
