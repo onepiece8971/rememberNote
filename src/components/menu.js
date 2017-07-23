@@ -1,4 +1,5 @@
 import React from 'react';
+import SideMenu from 'react-native-side-menu';
 import {
   MenuView,
   MenuTopView,
@@ -11,17 +12,18 @@ import {
 } from '../css/menuStyles';
 import Svg, {Path} from 'react-native-svg';
 import CS from '../css/convertSize';
+import {history} from '../containers/routerRoot';
 
-export default Menu = ({rootLink, mainLink}) => (
+const MenuContent = ({linkOff}) => (
   <MenuView>
     <MenuTopView>
       <MenuHeadImage />
       <MenuUserName>用户名</MenuUserName>
     </MenuTopView>
     <MenuListView>
-      <MenuListText onPress={() => mainLink('/')}>所有笔记</MenuListText>
-      <MenuListText onPress={() => mainLink('/remember')}>记忆笔记</MenuListText>
-      <MenuListText onPress={() => rootLink('/counter')}>已分享</MenuListText>
+      <MenuListText onPress={() => linkOff('/')}>抄笔记</MenuListText>
+      <MenuListText onPress={() => linkOff('/allNote')}>所有笔记</MenuListText>
+      <MenuListText onPress={() => linkOff('/study')}>已分享</MenuListText>
       <MenuListText>标签</MenuListText>
       <MenuListText>废纸篓</MenuListText>
     </MenuListView>
@@ -39,3 +41,20 @@ export default Menu = ({rootLink, mainLink}) => (
     </MenuFootView>
   </MenuView>
 );
+
+export default Menu = ({children, isOpen, update, off}) => {
+  const linkOff = (to) => {
+    history.push(to);
+    off();
+  };
+  return (
+  <SideMenu
+    menu={<MenuContent linkOff={linkOff}/>}
+    isOpen={isOpen}
+    menuPosition="right"
+    openMenuOffset={CS.w(332)}
+    onChange={isOpen => update(isOpen)}
+  >
+    {children}
+  </SideMenu>
+)};

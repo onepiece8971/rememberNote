@@ -7,7 +7,7 @@ const CarouselImage = styled.Image.attrs({
   source : require('./img/carouse.jpg'),
 })`
 width: 100%;
-height: ${CS.h(162)}px;
+height: ${CS.h(165)}px;
 `;
 
 // 卡片集

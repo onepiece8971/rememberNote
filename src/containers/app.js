@@ -20,7 +20,7 @@ import {createStore} from 'redux';
 import {Provider} from 'react-redux';
 import React from 'react';
 import RouterRoot from './routerRoot';
-import reducer from '../reducers/main';
+import reducer from '../reducers';
 
 const store = createStore(reducer);
 

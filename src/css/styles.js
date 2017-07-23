@@ -40,6 +40,11 @@ const AppStatusBar = styled.StatusBar.attrs({
   backgroundColor: colors.main
 })``;
 
+// 空View
+const Div = styled.View`
+flex: 1;
+`;
+
 // 导航页View
 const MainView = styled.View`
 height: ${CS.getWindowsHeight()}px;
@@ -58,7 +63,7 @@ align-items: center;
 flex-direction: row;
 `;
 const SearchView = styled.View`
-width: ${CS.w(320)}px;
+flex: 1;
 height: ${CS.h(28)}px;
 background: #fff;
 flex-direction: row;
@@ -115,6 +120,7 @@ color: ${colors.white};
 export {
   colors,
   AppStatusBar,
+  Div,
 
   YaHeiText,
   XingKaiText,

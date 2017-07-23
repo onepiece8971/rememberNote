@@ -70,6 +70,11 @@ height: 100%;
 align-items: flex-end;
 justify-content: space-between;
 `;
+const RightViewForAllNote = styled.View`
+width: ${CS.w(12)}px;
+height: 100%;
+justify-content: flex-start;
+`;
 
 const RightViewButton = styled.TouchableOpacity`
 justify-content: center;
@@ -100,4 +105,6 @@ export {
   RightView,
   RightViewButton,
   ButtonText,
+
+  RightViewForAllNote,
 }

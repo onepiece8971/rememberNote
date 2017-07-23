@@ -43,8 +43,8 @@ height: ${props => CS.h(props.rows * 10 || 10)}px;
 `;
 
 const RememberButtonView = styled.View`
-width: ${CS.w(100)}px;
-height: ${CS.h(72)}px;
+width: ${CS.w(133)}px;
+height: ${CS.h(96)}px;
 justify-content: space-between;
 align-self: flex-end;
 `;
@@ -52,14 +52,14 @@ const RememberTopButton = styled.TouchableOpacity`
 justify-content: center;
 align-items: center;
 width: 100%;
-height: ${CS.h(30)}px;
+height: ${CS.h(40)}px;
 background: ${colors.main};
 `;
 const RememberFootButton = RememberTopButton.extend`
 background: ${colors.pink};
 `;
 const RememberFootButtonText = SongTiText.extend`
-font-size: 16;
+font-size: 20;
 `;
 const RememberTopButtonText = RememberFootButtonText.extend`
 color: ${colors.white};
