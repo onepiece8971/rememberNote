@@ -1,9 +1,8 @@
 import React from 'react';
-import {View, FlatList} from 'react-native';
+import {FlatList} from 'react-native';
 import {
   CarouselImage,
   CardsView,
-  CardFlatListView,
   CardView,
   CardTopImage,
   CardMiddleView,
@@ -16,13 +15,15 @@ import {
   CardBottomText,
   CardBottomIconView
 } from '../css/homeStyles';
+import {OccupiedView} from '../css/studyStyle'
+import {Div} from '../css/styles'
 import {BottomTag} from '../components/bottom';
 import Svg, {Path, Polygon} from 'react-native-svg';
 import CS from '../css/convertSize';
 
 export default Home = () => {
   const data = [];
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < 10; i++) {
     data.push({key: i});
   }
   // 卡片
@@ -41,7 +42,7 @@ export default Home = () => {
       </Svg>
     );
     return (
-      <CardView isLeft={props.isLeft}>
+      <CardView>
         <CardTopImage source={props.uri}/>
         <CardMiddleView>
           <CardMiddleImage />
@@ -76,28 +77,26 @@ export default Home = () => {
   };
   // 重复的内容
   const _renderItem = ({item}) => {
-    const uri  = item.key % 2 === 0 ? require('../css/img/top01.png') : require('../css/img/top03.png');
-    const uri2 = item.key % 2 === 0 ? require('../css/img/top02.png') : require('../css/img/top04.png');
+    const uri = item.key % 2 === 0 ? require('../css/img/top01.png') : require('../css/img/top03.png');
     return (
-      <CardFlatListView>
-        <Card  isLeft={true} uri={uri} fillOpacity="0.38" />
-        <Card  uri={uri2} />
-      </CardFlatListView>
+      <Card uri={uri} fillOpacity="0.38"/>
     )
   };
   return (
-    <View style={{flex:1}}>
+    <Div>
       <CarouselImage />
       <CardsView>
         <FlatList
           data={data}
           renderItem={_renderItem}
           getItemLayout={(data, index) => (
-            {length: CS.h(160), offset: CS.h(160) * index, index}
+            {length: CS.h(160), offset: CS.h(170) * index, index}
           )}
+          numColumns="2"
+          ItemSeparatorComponent={OccupiedView}
         />
       </CardsView>
       <BottomTag />
-    </View>
+    </Div>
   )
 };

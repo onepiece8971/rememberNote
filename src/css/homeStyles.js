@@ -13,17 +13,13 @@ height: ${CS.h(165)}px;
 // 卡片集
 const CardsView = styled.View`
 flex: 1;
-padding: 0 ${CS.w(12)}px;
+padding: 0 ${CS.w(6)}px;
 margin-top: ${CS.h(10)}px;
 `;
-const CardFlatListView = styled.View`
-flex-flow: row wrap;
-`;
 const CardView = styled.View`
-width: ${CS.w(170)}px;
+width: ${CS.w(169.5)}px;
 height: ${CS.h(160)}px;
-margin-bottom: ${CS.h(10)}px;
-margin-right: ${props => props.isLeft ? CS.w(11) : 0}px;
+margin: 0 ${CS.w(6)}px;
 `;
 const CardTopImage = styled.Image`
 width: 100%;
@@ -84,7 +80,6 @@ export {
   CarouselImage,
 
   CardsView,
-  CardFlatListView,
   CardView,
   CardTopImage,
   CardMiddleView,

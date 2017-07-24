@@ -4,7 +4,7 @@ import CS from './convertSize';
 
 const ContentView = styled.View`
 flex: 1;
-padding: 0 ${CS.w(12)}px;
+padding: 0 ${CS.w(6)}px;
 `;
 
 const TopView = styled.View`
@@ -20,12 +20,20 @@ font-size:14;
 
 const SmallContentView = TopView.extend`
 height: ${CS.h(120)}px;
+margin: 0 ${CS.w(6)}px;
+`;
+const DetailsContentView = TopView.extend`
+height: ${CS.h(84)}px;
+margin: 0 ${CS.w(6)}px;
 `;
 const SmallView = styled.View`
 flex-direction: row;
 justify-content: space-between;
 align-items: center;
 height: ${CS.h(80)}px;
+`;
+const DetailsSmallView = SmallView.extend`
+height: ${CS.h(60)}px;
 `;
 
 const  CoverImage = styled.Image`
@@ -93,7 +101,9 @@ export {
   TopView,
   TopText,
   SmallContentView,
+  DetailsContentView,
   SmallView,
+  DetailsSmallView,
   CoverImage,
   TextView,
   TitleText,

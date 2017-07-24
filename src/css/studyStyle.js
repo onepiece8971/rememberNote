@@ -58,6 +58,10 @@ background: ${colors.main};
 const RememberFootButton = RememberTopButton.extend`
 background: ${colors.pink};
 `;
+const NormalFootButton = RememberTopButton.extend`
+width: ${CS.w(132)}px;
+align-self: flex-end;
+`;
 const RememberFootButtonText = SongTiText.extend`
 font-size: 20;
 `;
@@ -77,5 +81,6 @@ export {
   RememberTopButton,
   RememberTopButtonText,
   RememberFootButton,
+  NormalFootButton,
   RememberFootButtonText,
 }

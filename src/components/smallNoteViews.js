@@ -17,13 +17,14 @@ import {
   ButtonText,
   RightView
 } from '../css/noteStyles';
+import {history} from '../containers/routerRoot';
 
 export default SmallNoteViews = ({item}) => (
   <SmallContentView>
     <SmallView>
       <CoverImage source={require('../css/img/cover01.png')} />
       <TextView>
-        <TitleText>XX笔记本</TitleText>
+        <TitleText onPress={() => {history.push('/noteDetailsList')}}>XX笔记本</TitleText>
         <MiddleTextView>
           <MiddleText>笔记本描述,这是一本xxx笔记本,描述要够记录着你懂得一些东西.</MiddleText>
         </MiddleTextView>

@@ -1,13 +1,11 @@
 import {createActions} from 'redux-actions';
 
 const mainActions = createActions({
-  ANIMATION: {
-    SIDEMENU: {
-      TOGGLEISOPEN: undefined,
-      UPDATEISOPEN: undefined,
-      MENUOFFISOPEN: undefined
-    },
+  MAIN: {
+    BOTTOM: {
+      ROUTE: undefined
+    }
   }
 });
 
-export const {toggleisopen, updateisopen, menuoffisopen} = mainActions.animation.sidemenu;
+export const {route} = mainActions.main.bottom;

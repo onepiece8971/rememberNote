@@ -1,6 +1,5 @@
 import React from 'react';
 import {TouchableOpacity} from 'react-native';
-import {Link} from 'react-router-native';
 import {
   BottomNavView,
   BottomNavTopView,
@@ -14,28 +13,28 @@ import {
 import Svg, {Polygon} from 'react-native-svg';
 import CS from '../css/convertSize';
 
-export default Bottom = () => (
+export default Bottom = ({mainRouterTo}) => (
   <BottomNavFootView>
-    <Link to="/" component={TouchableOpacity}>
+    <TouchableOpacity onPress={() => mainRouterTo('/home')}>
       <BottomNavFootSmallView>
         <BottomNavTopText>已抄笔记</BottomNavTopText>
         <BottomNavMiddleText>10</BottomNavMiddleText>
         <BottomNavFootText>抄笔记</BottomNavFootText>
       </BottomNavFootSmallView>
-    </Link>
+    </TouchableOpacity>
     <BottomNavFootSmallView background="#6ABEA7">
       <Svg width={CS.w(22)} height={CS.h(22)} viewBox="9 9 22 22">
         <Polygon points="19 19 19 9 21 9 21 19 31 19 31 21 21 21 21 31 19 31 19 21 9 21 9 19" fill="#fff"
                  fillOpacity="0.87"/>
       </Svg>
     </BottomNavFootSmallView>
-    <Link to="/remember" component={TouchableOpacity}>
+    <TouchableOpacity onPress={() => mainRouterTo('/remember')}>
       <BottomNavFootSmallView>
         <BottomNavTopText>已背笔记</BottomNavTopText>
         <BottomNavMiddleText>10</BottomNavMiddleText>
         <BottomNavFootText>背笔记</BottomNavFootText>
       </BottomNavFootSmallView>
-    </Link>
+    </TouchableOpacity>
   </BottomNavFootView>
 );
 

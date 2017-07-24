@@ -1,21 +1,28 @@
 import React  from 'react';
-import {NativeRouter, Route} from 'react-router-native';
 import {MainView} from '../css/styles';
 import Menu from '../containers/menu'
 import Top from '../containers/top';
-import Bottom from './bottom';
+import Bottom from '../containers/bottom';
 import Home from './home';
 import Remember from './remember';
 
-export default Main = () => (
+export default Main = ({route}) => (
   <Menu>
-    <NativeRouter>
-      <MainView>
-        <Top/>
-        <Route exact path="/" component={Home}/>
-        <Route path="/remember" component={Remember}/>
-        <Bottom/>
-      </MainView>
-    </NativeRouter>
+    <MainView>
+      <Top/>
+      <MainRoute route={route} />
+      <Bottom/>
+    </MainView>
   </Menu>
 )
+
+const MainRoute = ({route}) => {
+  switch (route) {
+    case '/remember':
+      return (<Remember/>);
+      break;
+    default:
+      return (<Home/>);
+      break;
+  }
+};

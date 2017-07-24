@@ -21,9 +21,9 @@ const MenuContent = ({linkOff}) => (
       <MenuUserName>用户名</MenuUserName>
     </MenuTopView>
     <MenuListView>
-      <MenuListText onPress={() => linkOff('/')}>抄笔记</MenuListText>
+      <MenuListText onPress={() => linkOff('/')}>抄/背笔记</MenuListText>
       <MenuListText onPress={() => linkOff('/allNote')}>所有笔记</MenuListText>
-      <MenuListText onPress={() => linkOff('/study')}>已分享</MenuListText>
+      <MenuListText>已分享</MenuListText>
       <MenuListText>标签</MenuListText>
       <MenuListText>废纸篓</MenuListText>
     </MenuListView>
