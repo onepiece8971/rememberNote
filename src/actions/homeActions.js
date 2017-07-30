@@ -1,7 +1,7 @@
-import { createAction } from 'redux-actions';
-import {SIDEMENU} from './actionTypes';
+import {createAction} from 'redux-actions';
+import {get} from '../api/home'
 
-const sideMenu = createAction(SIDEMENU);
+const home = createAction('HOME', get);
 
-export {sideMenu}
+export {home}
 

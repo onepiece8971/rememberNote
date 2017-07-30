@@ -22,7 +22,7 @@ import {
   RememberFootButton,
   RememberFootButtonText,
 } from '../css/studyStyle';
-import {history} from '../containers/routerRoot';
+import {history} from '../components/routerRoot';
 
 export default NoteDetails = ({memory}) => (
   <MainView>

@@ -8,7 +8,7 @@ import {
 } from '../css/styles';
 import Svg, {Path} from 'react-native-svg';
 import CS from '../css/convertSize';
-import {history} from '../containers/routerRoot';
+import {history} from '../components/routerRoot';
 
 export default Top = ({back, toggle}) => (
   <View>

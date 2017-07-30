@@ -12,7 +12,7 @@ import {
 } from '../css/menuStyles';
 import Svg, {Path} from 'react-native-svg';
 import CS from '../css/convertSize';
-import {history} from '../containers/routerRoot';
+import {history} from '../components/routerRoot';
 
 const MenuContent = ({linkOff}) => (
   <MenuView>

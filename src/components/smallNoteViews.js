@@ -17,7 +17,7 @@ import {
   ButtonText,
   RightView
 } from '../css/noteStyles';
-import {history} from '../containers/routerRoot';
+import {history} from '../components/routerRoot';
 
 export default SmallNoteViews = ({item}) => (
   <SmallContentView>
@@ -49,7 +49,7 @@ const RightViewComp = ({all}) => {
         <Polygon points="0 0.00184591254 0 11.9664853 4.47141075 7.97608219 8.99312842 11.9949669 8.99312842 0"
                  fill="rgba(252, 200, 194, 0.58)"/>
       </Svg>
-      <RightViewButton>
+      <RightViewButton onPress={() => {history.push('/memoryNoteDetails')}}>
         <ButtonText>复习</ButtonText>
       </RightViewButton>
     </RightView>
