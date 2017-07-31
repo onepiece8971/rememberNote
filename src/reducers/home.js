@@ -1,7 +1,7 @@
 import {handleActions} from 'redux-actions';
 
 const home = handleActions({
-  ['HOME']: (home, {payload}) => payload,
-}, '');
+  ['BOOKS']: (home, {payload}) => ({...home, books: payload}),
+}, {books: []});
 
 export default home;

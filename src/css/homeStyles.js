@@ -31,9 +31,7 @@ height: ${CS.h(30)}px;
 flex-direction: row;
 align-items: center;
 `;
-const CardMiddleImage = styled.Image.attrs({
-  source : require('./img/head.jpg'),
-})`
+const CardMiddleImage = styled.Image`
 width: ${CS.w(20)}px;
 height: ${CS.h(20)}px;
 border-radius: ${CS.w(10)}px;

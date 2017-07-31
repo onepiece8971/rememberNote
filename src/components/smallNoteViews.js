@@ -22,28 +22,21 @@ import {history} from '../components/routerRoot';
 export default SmallNoteViews = ({item}) => (
   <SmallContentView>
     <SmallView>
-      <CoverImage source={require('../css/img/cover01.png')} />
+      <CoverImage source={{uri: item.cover}} />
       <TextView>
-        <TitleText onPress={() => {history.push('/noteDetailsList')}}>XX笔记本</TitleText>
+        <TitleText onPress={() => {history.push('/noteDetailsList')}}>{item.name}</TitleText>
         <MiddleTextView>
-          <MiddleText>笔记本描述,这是一本xxx笔记本,描述要够记录着你懂得一些东西.</MiddleText>
+          <MiddleText>{item.info}</MiddleText>
         </MiddleTextView>
-        <FootTextViewComp all={item.all} />
+        <FootTextViewComp isMemory={item.isMemory} usedPages={item.usedPages} pageNum={item.pageNum}/>
       </TextView>
-      <RightViewComp all={item.all} />
+      <RightViewComp isMemory={item.isMemory} />
     </SmallView>
   </SmallContentView>
 );
 
-const RightViewComp = ({all}) => {
-  return all ? (
-    <RightViewForAllNote>
-      <Svg width={CS.w(12)} height={CS.h(16)} viewBox="0 0 9 12">
-        <Polygon points="0 0.00184591254 0 11.9664853 4.47141075 7.97608219 8.99312842 11.9949669 8.99312842 0"
-                 fill="rgba(94, 105, 115, 0.38)"/>
-      </Svg>
-    </RightViewForAllNote>
-  ) : (
+const RightViewComp = ({isMemory}) => {
+  return isMemory ? (
     <RightView>
       <Svg width={CS.w(12)} height={CS.h(16)} viewBox="0 0 9 12">
         <Polygon points="0 0.00184591254 0 11.9664853 4.47141075 7.97608219 8.99312842 11.9949669 8.99312842 0"
@@ -53,18 +46,25 @@ const RightViewComp = ({all}) => {
         <ButtonText>复习</ButtonText>
       </RightViewButton>
     </RightView>
+  ) : (
+    <RightViewForAllNote>
+      <Svg width={CS.w(12)} height={CS.h(16)} viewBox="0 0 9 12">
+        <Polygon points="0 0.00184591254 0 11.9664853 4.47141075 7.97608219 8.99312842 11.9949669 8.99312842 0"
+                 fill="rgba(94, 105, 115, 0.38)"/>
+      </Svg>
+    </RightViewForAllNote>
   )
 };
 
-const FootTextViewComp = ({all}) => {
-  return all ? (
+const FootTextViewComp = ({isMemory, usedPages, pageNum}) => {
+  return isMemory ? (
     <FootTextView>
-      <FootRightTex>共100页</FootRightTex>
+      <FootLeftTex>{usedPages}</FootLeftTex>
+      <FootRightTex>/{pageNum}页</FootRightTex>
     </FootTextView>
   ) : (
     <FootTextView>
-      <FootLeftTex>100</FootLeftTex>
-      <FootRightTex>/1000页</FootRightTex>
+      <FootRightTex>共{pageNum}页</FootRightTex>
     </FootTextView>
   )
 };

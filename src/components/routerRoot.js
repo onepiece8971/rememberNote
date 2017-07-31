@@ -8,18 +8,24 @@ import NoteDetails from './noteDetails';
 
 const history = createHistory();
 
-export default RouterRoot = ({home}) => (
-  <Router history={history}>
-    <Switch>
-      <Route exact path="/" component={Main} onEnter={home()} />
-      <Route path="/allNote" component={AllNote}/>
-      <Route path="/noteDetailsList" component={NoteDetailsList}/>
-      <Route path="/noteDetails" component={NoteDetails}/>
-      <Route path="/memoryNoteDetails">
-        <NoteDetails memory={true} />
-      </Route>
-    </Switch>
-  </Router>
-)
+export default RouterRoot = ({getBooks, userBooks}) => {
+  const init = () => {
+    getBooks();
+    userBooks();
+  };
+  return (
+    <Router history={history}>
+      <Switch>
+        <Route exact path="/" component={Main} onEnter={init()}/>
+        <Route path="/allNote" component={AllNote}/>
+        <Route path="/noteDetailsList" component={NoteDetailsList}/>
+        <Route path="/noteDetails" component={NoteDetails}/>
+        <Route path="/memoryNoteDetails">
+          <NoteDetails memory={true}/>
+        </Route>
+      </Switch>
+    </Router>
+  )
+}
 
 export {history};

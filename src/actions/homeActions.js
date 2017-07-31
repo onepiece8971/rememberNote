@@ -1,7 +1,7 @@
 import {createAction} from 'redux-actions';
-import {get} from '../api/home'
+import {getBooks} from '../api/home'
 
-const home = createAction('HOME', get);
+const books = createAction('BOOKS', getBooks);
 
-export {home}
+export {books}
 

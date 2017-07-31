@@ -3,8 +3,8 @@ import {MainView} from '../css/styles';
 import Menu from '../containers/menu'
 import Top from '../containers/top';
 import Bottom from '../containers/bottom';
-import Home from './home';
-import Remember from './remember';
+import Home from '../containers/home';
+import Remember from '../containers/remember';
 
 export default Main = ({route}) => (
   <Menu>
@@ -19,10 +19,8 @@ export default Main = ({route}) => (
 const MainRoute = ({route}) => {
   switch (route) {
     case '/remember':
-      return (<Remember/>);
-      break;
+      return (<Remember />);
     default:
-      return (<Home/>);
-      break;
+      return (<Home />);
   }
 };

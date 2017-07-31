@@ -1,8 +1,9 @@
-import RouterRoot from '../components/routerRoot';
 import {connect} from 'react-redux';
-import {home} from '../actions/homeActions'
+import RouterRoot from '../components/routerRoot';
+import {books} from '../actions/homeActions'
+import {userBooks} from '../actions/rememberActions';
 
 export default connect(
   undefined,
-  {home: home}
+  {userBooks: userBooks, getBooks: books}
 )(RouterRoot);

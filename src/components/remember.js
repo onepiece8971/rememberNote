@@ -9,12 +9,19 @@ import {
 import SmallNoteViews from '../components/smallNoteViews';
 import {BottomTag} from '../components/bottom';
 
-export default Remember = () => {
+export default Remember = ({userBooks}) => {
   const data = [];
-  for (let i = 0; i < 6; i++) {
-    data.push({key: i});
-  }
-
+  userBooks.map(function(v, i){
+    data.push({
+      key:       i,
+      name:      v.Name,
+      cover:     v.Cover,
+      info:      v.Info,
+      usedPages: v.UsedPages,
+      pageNum:   v.PageNum,
+      isMemory:  v.IsMemory && true,
+    });
+  });
   return (
     <View style={{flex: 1}}>
       <ContentView>
