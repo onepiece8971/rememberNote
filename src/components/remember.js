@@ -14,6 +14,7 @@ export default Remember = ({userBooks}) => {
   userBooks.map(function(v, i){
     data.push({
       key:       i,
+      id:        v.Id,
       name:      v.Name,
       cover:     v.Cover,
       info:      v.Info,

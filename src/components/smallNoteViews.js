@@ -24,7 +24,7 @@ export default SmallNoteViews = ({item}) => (
     <SmallView>
       <CoverImage source={{uri: item.cover}} />
       <TextView>
-        <TitleText onPress={() => {history.push('/noteDetailsList')}}>{item.name}</TitleText>
+        <TitleText onPress={() => {history.push('/noteDetailsList/' + item.id)}}>{item.name}</TitleText>
         <MiddleTextView>
           <MiddleText>{item.info}</MiddleText>
         </MiddleTextView>

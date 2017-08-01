@@ -27,10 +27,10 @@ const DetailsView = ({item}) => (
     <DetailsSmallView>
       <TextView>
         <Link to="/noteDetails">
-        <TitleText>apple</TitleText>
+        <TitleText>{item.name}</TitleText>
         </Link>
         <MiddleTextView>
-          <MiddleText>['æpl] n. 苹果,苹果树,苹果似的东西</MiddleText>
+          <MiddleText>{item.content}</MiddleText>
         </MiddleTextView>
         <FootTextView>
           <FootLeftTex>熟练度:</FootLeftTex>
@@ -42,8 +42,8 @@ const DetailsView = ({item}) => (
   </DetailsContentView>
 );
 
-const RightViewComp = ({memory}) => {
-  return memory ? (
+const RightViewComp = ({isMemory}) => {
+  return isMemory ? (
     <RightViewForAllNote>
       <Svg width={CS.w(12)} height={CS.h(16)} viewBox="0 0 9 12">
         <Polygon points="0 0.00184591254 0 11.9664853 4.47141075 7.97608219 8.99312842 11.9949669 8.99312842 0"
@@ -60,30 +60,38 @@ const RightViewComp = ({memory}) => {
   )
 };
 
-export default NoteDetailsList = () => {
-  const data = [];
-  for (let i = 0; i < 12; i++) {
-    let all = i % 2 === 0;
-    data.push({key: i, all: all});
+export default NoteDetailsList = ({posts}) => {
+  if (posts) {
+    const data = [];
+    posts.map(function(v, i){
+      data.push({
+        key: i,
+        name: v.Name,
+        content: v.Content,
+      });
+    });
+    return (
+      <Menu>
+        <MainView>
+          <Top back={true} />
+          <ContentView>
+            <TopView>
+              <TopText>xx笔记本</TopText>
+            </TopView>
+            <FlatList
+              data={data}
+              renderItem={DetailsView}
+              getItemLayout={(data, index) => (
+                {length: CS.h(120), offset: CS.h(120) * index, index}
+              )}
+            />
+          </ContentView>
+        </MainView>
+      </Menu>
+    )
+  } else {
+    return (
+      <TitleText>Loading...</TitleText>
+    )
   }
-
-  return (
-    <Menu>
-      <MainView>
-        <Top back={true} />
-        <ContentView>
-          <TopView>
-            <TopText>xx笔记本</TopText>
-          </TopView>
-          <FlatList
-            data={data}
-            renderItem={DetailsView}
-            getItemLayout={(data, index) => (
-              {length: CS.h(120), offset: CS.h(120) * index, index}
-            )}
-          />
-        </ContentView>
-      </MainView>
-    </Menu>
-  )
 };

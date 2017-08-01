@@ -3,12 +3,12 @@ import {Router, Route, Switch} from 'react-router-native';
 import createHistory from 'history/createMemoryHistory';
 import Main from '../containers/main';
 import AllNote from './allNote';
-import NoteDetailsList from './noteDetailsList';
+import NoteDetailsList from '../containers/noteDetailsList';
 import NoteDetails from './noteDetails';
 
 const history = createHistory();
 
-export default RouterRoot = ({getBooks, userBooks}) => {
+export default RouterRoot = ({getBooks, userBooks, getPosts}) => {
   const init = () => {
     getBooks();
     userBooks();
@@ -18,7 +18,10 @@ export default RouterRoot = ({getBooks, userBooks}) => {
       <Switch>
         <Route exact path="/" component={Main} onEnter={init()}/>
         <Route path="/allNote" component={AllNote}/>
-        <Route path="/noteDetailsList" component={NoteDetailsList}/>
+        <Route path="/noteDetailsList/:userBooksId" children={({match, ...rest}) => {
+          getPosts(match.params.userBooksId);
+          return <NoteDetailsList userBooksId={match.params.userBooksId} {...rest} />
+        }}/>
         <Route path="/noteDetails" component={NoteDetails}/>
         <Route path="/memoryNoteDetails">
           <NoteDetails memory={true}/>
