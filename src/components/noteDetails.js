@@ -24,7 +24,8 @@ import {
 } from '../css/studyStyle';
 import {history} from '../components/routerRoot';
 
-export default NoteDetails = ({memory}) => (
+export default NoteDetails = ({post}) => {
+  return (
   <MainView>
     <AppStatusBar/>
     <TopView>
@@ -35,10 +36,10 @@ export default NoteDetails = ({memory}) => (
             fill="rgba(255, 255, 255, 0.87)"/>
         </Svg>
       </TouchableOpacity>
-      <TopText>{memory ? '背笔记' : '查看笔记'}</TopText>
+      <TopText>{post.Level ? '背笔记' : '查看笔记'}</TopText>
     </TopView>
     <ContentView>
-      <RowText size="24">Apple</RowText>
+      <RowText size="24">{post.Name}</RowText>
       <OccupiedView/>
       <TextView>
         <RowText size="16">['æpl] </RowText>
@@ -71,7 +72,7 @@ export default NoteDetails = ({memory}) => (
       </RowText>
       <Occupied/>
       {
-        memory ? (
+        post.Level ? (
           <RememberButtonView>
             <RememberTopButton>
               <RememberTopButtonText>记得</RememberTopButtonText>
@@ -88,4 +89,4 @@ export default NoteDetails = ({memory}) => (
       }
     </ContentView>
   </MainView>
-);
+)};

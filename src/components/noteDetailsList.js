@@ -26,18 +26,18 @@ const DetailsView = ({item}) => (
   <DetailsContentView>
     <DetailsSmallView>
       <TextView>
-        <Link to="/noteDetails">
-        <TitleText>{item.name}</TitleText>
+        <Link to={"/noteDetails/" + item.id}>
+          <TitleText>{item.name}</TitleText>
         </Link>
         <MiddleTextView>
           <MiddleText>{item.content}</MiddleText>
         </MiddleTextView>
         <FootTextView>
-          <FootLeftTex>熟练度:</FootLeftTex>
-          <FootRightTex>无</FootRightTex>
+          <FootLeftTex>熟练度: </FootLeftTex>
+          <FootRightTex>{item.level}</FootRightTex>
         </FootTextView>
       </TextView>
-      <RightViewComp />
+      <RightViewComp isMemory={item.level} />
     </DetailsSmallView>
   </DetailsContentView>
 );
@@ -60,14 +60,16 @@ const RightViewComp = ({isMemory}) => {
   )
 };
 
-export default NoteDetailsList = ({posts}) => {
+export default NoteDetailsList = ({posts, userBooksName}) => {
   if (posts) {
     const data = [];
-    posts.map(function(v, i){
+    posts.map(function(v, i) {
       data.push({
-        key: i,
-        name: v.Name,
+        key:     i,
+        id:      v.Id,
+        name:    v.Name,
         content: v.Content,
+        level:   v.Level,
       });
     });
     return (
@@ -76,7 +78,7 @@ export default NoteDetailsList = ({posts}) => {
           <Top back={true} />
           <ContentView>
             <TopView>
-              <TopText>xx笔记本</TopText>
+              <TopText>{userBooksName}</TopText>
             </TopView>
             <FlatList
               data={data}

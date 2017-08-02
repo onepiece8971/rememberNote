@@ -3,6 +3,6 @@ import Remember from '../components/remember';
 
 export default connect(
   state => ({
-    userBooks : state.remember.userBooks
+    userBooks : state.remember.userBooks.userBooks
   }),
 )(Remember);

@@ -4,11 +4,11 @@ import createHistory from 'history/createMemoryHistory';
 import Main from '../containers/main';
 import AllNote from './allNote';
 import NoteDetailsList from '../containers/noteDetailsList';
-import NoteDetails from './noteDetails';
+import NoteDetails from '../containers/noteDetails';
 
 const history = createHistory();
 
-export default RouterRoot = ({getBooks, userBooks, getPosts}) => {
+export default RouterRoot = ({getBooks, userBooks, getPosts, getPost}) => {
   const init = () => {
     getBooks();
     userBooks();
@@ -22,10 +22,10 @@ export default RouterRoot = ({getBooks, userBooks, getPosts}) => {
           getPosts(match.params.userBooksId);
           return <NoteDetailsList userBooksId={match.params.userBooksId} {...rest} />
         }}/>
-        <Route path="/noteDetails" component={NoteDetails}/>
-        <Route path="/memoryNoteDetails">
-          <NoteDetails memory={true}/>
-        </Route>
+        <Route path="/noteDetails/:postId" children={({match, ...rest}) => {
+          getPost(match.params.postId);
+          return <NoteDetails {...rest} />
+        }}/>
       </Switch>
     </Router>
   )
