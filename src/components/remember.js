@@ -6,8 +6,8 @@ import {
   TopView,
   TopText,
 } from '../css/noteStyles';
-import SmallNoteViews from '../components/smallNoteViews';
-import {BottomTag} from '../components/bottom';
+import SmallNoteViews from '../containers/smallNoteViews';
+import {BottomTag} from './bottom';
 
 export default Remember = ({userBooks}) => {
   const data = [];
@@ -31,7 +31,9 @@ export default Remember = ({userBooks}) => {
         </TopView>
         <FlatList
           data={data}
-          renderItem={SmallNoteViews}
+          renderItem={
+            ({item}) => (<SmallNoteViews item={item} />)
+          }
           getItemLayout={(data, index) => (
             {length: CS.h(120), offset: CS.h(120) * index, index}
           )}

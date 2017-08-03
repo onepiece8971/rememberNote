@@ -20,15 +20,16 @@ import Svg, {Polygon} from 'react-native-svg';
 import {MainView} from '../css/styles'
 import Menu from '../containers/menu'
 import Top from '../containers/top';
-import {Link} from 'react-router-native';
+import {history} from '../components/routerRoot';
 
-const DetailsView = ({item}) => (
+const DetailsView = ({item, getPost}) => (
   <DetailsContentView>
     <DetailsSmallView>
       <TextView>
-        <Link to={"/noteDetails/" + item.id}>
-          <TitleText>{item.name}</TitleText>
-        </Link>
+        <TitleText onPress={() => {
+          getPost(item.id);
+          history.push('/noteDetails')
+        }}>{item.name}</TitleText>
         <MiddleTextView>
           <MiddleText>{item.content}</MiddleText>
         </MiddleTextView>
@@ -60,7 +61,7 @@ const RightViewComp = ({isMemory}) => {
   )
 };
 
-export default NoteDetailsList = ({posts, userBooksName}) => {
+export default NoteDetailsList = ({posts, userBooksName, getPost}) => {
   if (posts) {
     const data = [];
     posts.map(function(v, i) {
@@ -82,7 +83,9 @@ export default NoteDetailsList = ({posts, userBooksName}) => {
             </TopView>
             <FlatList
               data={data}
-              renderItem={DetailsView}
+              renderItem={
+                ({item}) => (<DetailsView item={item} getPost={getPost} />)
+              }
               getItemLayout={(data, index) => (
                 {length: CS.h(120), offset: CS.h(120) * index, index}
               )}

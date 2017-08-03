@@ -22,4 +22,15 @@ const getPostById = async (postId) => {
   }
 };
 
-export {getPostsByUserBooksId, getPostById}
+const getReviews = async (userBooksId) => {
+  try {
+    let response = await fetch(url + 'recite/' + userBooksId);
+    const json = await response.json();
+//     console.log(json);
+    return json;
+  } catch(e) {
+    console.log("Oops, error", e);
+  }
+};
+
+export {getPostsByUserBooksId, getPostById, getReviews}

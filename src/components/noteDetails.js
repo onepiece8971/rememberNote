@@ -24,8 +24,7 @@ import {
 } from '../css/studyStyle';
 import {history} from '../components/routerRoot';
 
-export default NoteDetails = ({post}) => {
-  return (
+export default NoteDetails = ({post, addRecite, getPost, ubId}) => (
   <MainView>
     <AppStatusBar/>
     <TopView>
@@ -82,11 +81,14 @@ export default NoteDetails = ({post}) => {
             </RememberFootButton>
           </RememberButtonView>
         ) : (
-          <NormalFootButton>
+          <NormalFootButton onPress={() => {
+            addRecite(ubId, post.Id);
+            getPost(post.Id)
+          }}>
             <RememberTopButtonText>加入记忆</RememberTopButtonText>
           </NormalFootButton>
         )
       }
     </ContentView>
   </MainView>
-)};
+);

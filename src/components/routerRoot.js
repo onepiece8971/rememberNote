@@ -8,7 +8,7 @@ import NoteDetails from '../containers/noteDetails';
 
 const history = createHistory();
 
-export default RouterRoot = ({getBooks, userBooks, getPosts, getPost}) => {
+export default RouterRoot = ({getBooks, userBooks, getPosts}) => {
   const init = () => {
     getBooks();
     userBooks();
@@ -22,10 +22,7 @@ export default RouterRoot = ({getBooks, userBooks, getPosts, getPost}) => {
           getPosts(match.params.userBooksId);
           return <NoteDetailsList userBooksId={match.params.userBooksId} {...rest} />
         }}/>
-        <Route path="/noteDetails/:postId" children={({match, ...rest}) => {
-          getPost(match.params.postId);
-          return <NoteDetails {...rest} />
-        }}/>
+        <Route path="/noteDetails" component={NoteDetails} />
       </Switch>
     </Router>
   )
