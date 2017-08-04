@@ -46,9 +46,11 @@ const RightViewComp = ({isMemory, userBooksId, review, getPointPost}) => {
                  fill="rgba(252, 200, 194, 0.58)"/>
       </Svg>
       <RightViewButton onPress={async () => {
-        await review(userBooksId);
-        getPointPost();
-        history.push('/noteDetails')
+        const json = await review(userBooksId);
+        if (json.payload.length > 0) {
+          getPointPost();
+          history.push('/noteDetails/review')
+        }
       }}>
         <ButtonText>复习</ButtonText>
       </RightViewButton>

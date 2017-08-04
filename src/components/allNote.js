@@ -9,15 +9,22 @@ import {
 import {MainView} from '../css/styles'
 import Menu from '../containers/menu'
 import Top from '../containers/top';
-import SmallNoteViews from '../components/smallNoteViews';
+import SmallNoteViews from '../containers/smallNoteViews';
 
-export default AllNote = () => {
+export default AllNote = ({userBooks}) => {
   const data = [];
-  for (let i = 0; i < 6; i++) {
-    let all = i % 2 === 0;
-    data.push({key: i, all: all});
-  }
-
+  userBooks.map(function(v, i){
+    data.push({
+      key:       i,
+      id:        v.Id,
+      name:      v.Name,
+      cover:     v.Cover,
+      info:      v.Info,
+      usedPages: v.UsedPages,
+      pageNum:   v.PageNum,
+      isMemory:  v.IsMemory && true,
+    });
+  });
   return (
     <Menu>
       <MainView>
@@ -28,7 +35,7 @@ export default AllNote = () => {
           </TopView>
           <FlatList
             data={data}
-            renderItem={SmallNoteViews}
+            renderItem={({item}) => (<SmallNoteViews item={item} />)}
             getItemLayout={(data, index) => (
               {length: CS.h(120), offset: CS.h(120) * index, index}
             )}

@@ -22,12 +22,12 @@ import Menu from '../containers/menu'
 import Top from '../containers/top';
 import {history} from '../components/routerRoot';
 
-const DetailsView = ({item, getPost}) => (
+const DetailsView = ({item, userBooksId, getPost}) => (
   <DetailsContentView>
     <DetailsSmallView>
       <TextView>
         <TitleText onPress={() => {
-          getPost(item.id);
+          getPost(userBooksId, item.id);
           history.push('/noteDetails')
         }}>{item.name}</TitleText>
         <MiddleTextView>
@@ -61,16 +61,16 @@ const RightViewComp = ({isMemory}) => {
   )
 };
 
-export default NoteDetailsList = ({posts, userBooksName, getPost}) => {
+export default NoteDetailsList = ({posts, userBooksId, userBooksName, getPost}) => {
   if (posts) {
     const data = [];
     posts.map(function(v, i) {
       data.push({
-        key:     i,
-        id:      v.Id,
-        name:    v.Name,
-        content: v.Content,
-        level:   v.Level,
+        key:      i,
+        id:       v.Id,
+        name:     v.Name,
+        content:  v.Content,
+        level:    v.Level,
       });
     });
     return (
@@ -84,7 +84,7 @@ export default NoteDetailsList = ({posts, userBooksName, getPost}) => {
             <FlatList
               data={data}
               renderItem={
-                ({item}) => (<DetailsView item={item} getPost={getPost} />)
+                ({item}) => (<DetailsView item={item} userBooksId={userBooksId} getPost={getPost} />)
               }
               getItemLayout={(data, index) => (
                 {length: CS.h(120), offset: CS.h(120) * index, index}

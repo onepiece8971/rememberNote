@@ -1,11 +1,17 @@
 import {connect} from 'react-redux';
 import NoteDetails from '../components/noteDetails';
-import {addRecite , getPost} from '../actions/noteDetailsActions';
+import {addRecite, upLevel, addPoint, getPointPost, getPost} from '../actions/noteDetailsActions';
 
 export default connect(
   state => ({
     post: state.post.current,
     ubId: state.post.ubId,
   }),
-  {addRecite: addRecite, getPost: getPost}
+  {
+    addRecite:    addRecite,
+    upLevel:      upLevel,
+    addPoint:     addPoint,
+    getPointPost: getPointPost,
+    getPost:      getPost
+  }
 )(NoteDetails);

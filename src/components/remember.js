@@ -31,9 +31,7 @@ export default Remember = ({userBooks}) => {
         </TopView>
         <FlatList
           data={data}
-          renderItem={
-            ({item}) => (<SmallNoteViews item={item} />)
-          }
+          renderItem={({item}) => (<SmallNoteViews item={item} />)}
           getItemLayout={(data, index) => (
             {length: CS.h(120), offset: CS.h(120) * index, index}
           )}

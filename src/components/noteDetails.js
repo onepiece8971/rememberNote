@@ -24,7 +24,7 @@ import {
 } from '../css/studyStyle';
 import {history} from '../components/routerRoot';
 
-export default NoteDetails = ({post, addRecite, getPost, ubId}) => (
+export default NoteDetails = ({review, post, ...rest}) => (
   <MainView>
     <AppStatusBar/>
     <TopView>
@@ -35,7 +35,7 @@ export default NoteDetails = ({post, addRecite, getPost, ubId}) => (
             fill="rgba(255, 255, 255, 0.87)"/>
         </Svg>
       </TouchableOpacity>
-      <TopText>{post.Level ? '背笔记' : '查看笔记'}</TopText>
+      <TopText>{review ? '背笔记' : '查看笔记'}</TopText>
     </TopView>
     <ContentView>
       <RowText size="24">{post.Name}</RowText>
@@ -70,25 +70,45 @@ export default NoteDetails = ({post, addRecite, getPost, ubId}) => (
         他先慢慢地咬去苹果皮，然后再吃果肉
       </RowText>
       <Occupied/>
-      {
-        post.Level ? (
-          <RememberButtonView>
-            <RememberTopButton>
-              <RememberTopButtonText>记得</RememberTopButtonText>
-            </RememberTopButton>
-            <RememberFootButton>
-              <RememberFootButtonText>忘记</RememberFootButtonText>
-            </RememberFootButton>
-          </RememberButtonView>
-        ) : (
-          <NormalFootButton onPress={() => {
-            addRecite(ubId, post.Id);
-            getPost(post.Id)
-          }}>
-            <RememberTopButtonText>加入记忆</RememberTopButtonText>
-          </NormalFootButton>
-        )
-      }
+      <RememberButton review={review} post={post} {...rest} />
     </ContentView>
   </MainView>
+);
+
+const RememberButton = ({review, post, upLevel, addPoint, getPointPost, ...rest}) => {
+  const upLevelAndNext = async (isForget) => {
+    await upLevel(post.ReciteId, isForget);
+    await addPoint();
+    const over = getPointPost();
+    if (over) {
+      history.go(-1);
+    }
+  };
+  if (review) {
+    return post.Level ? (
+      <RememberButtonView>
+        <RememberTopButton onPress={() => upLevelAndNext(false)}>
+          <RememberTopButtonText>记得</RememberTopButtonText>
+        </RememberTopButton>
+        <RememberFootButton onPress={() => upLevelAndNext(true)}>
+          <RememberFootButtonText>忘记</RememberFootButtonText>
+        </RememberFootButton>
+      </RememberButtonView>
+    ) : (
+      <AddReciteView post={post} {...rest} />
+    )
+  } else {
+    return post.Level ? null : (
+      <AddReciteView post={post} {...rest} />
+    )
+  }
+};
+
+const AddReciteView = ({post, addRecite, getPost, ubId}) => (
+  <NormalFootButton onPress={() => {
+    addRecite(ubId, post.Id);
+    getPost(ubId, post.Id)
+  }}>
+    <RememberTopButtonText>加入记忆</RememberTopButtonText>
+  </NormalFootButton>
 );
