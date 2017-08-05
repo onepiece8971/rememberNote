@@ -23,6 +23,7 @@ import {
   RememberFootButtonText,
 } from '../css/studyStyle';
 import {history} from '../components/routerRoot';
+import MarkDown from '../../plugs/parse-markdown'
 
 export default NoteDetails = ({review, post, ...rest}) => (
   <MainView>
@@ -38,7 +39,7 @@ export default NoteDetails = ({review, post, ...rest}) => (
       <TopText>{review ? '背笔记' : '查看笔记'}</TopText>
     </TopView>
     <ContentView>
-      <RowText size="24">{post.Name}</RowText>
+      {/*<RowText size="24">{post.Name}</RowText>
       <OccupiedView/>
       <TextView>
         <RowText size="16">['æpl] </RowText>
@@ -69,7 +70,8 @@ export default NoteDetails = ({review, post, ...rest}) => (
         3. He nibbled away the apple peel, then ate the flesh
         他先慢慢地咬去苹果皮，然后再吃果肉
       </RowText>
-      <Occupied/>
+      <Occupied/>*/}
+      <MarkDown>{post.Content}</MarkDown>
       <RememberButton review={review} post={post} {...rest} />
     </ContentView>
   </MainView>
