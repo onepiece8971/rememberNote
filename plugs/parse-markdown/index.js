@@ -27,7 +27,8 @@ const styles = {
 };
 
 const defaultRules = (styles = Styles) => ({
-  '#': ({type, children}, key) => {
+  head: (content, key) => {
+    const {type, children} = content;
     return React.createElement(
       Text,
       {key: key, style: styles['heading' + type.length]},
@@ -35,9 +36,13 @@ const defaultRules = (styles = Styles) => ({
     );
   },
   hide: (content, key, state) => {
+    let props = {key: key};
+    if (state.isHide) {
+      props.style = {color: '#fff'};
+    }
     return React.createElement(
-      Hide,
-      {key: key, isHide: state.isHide},
+      Text,
+      props,
       content
     );
   },
@@ -69,7 +74,7 @@ const defaultRules = (styles = Styles) => ({
 const translate = (context, rules, state) => {
   let results = [];
   const regex = [
-    {type: '#', reg: /^\s*(#{1,6})\s*(.*)/}, //head
+    {type: 'head', reg: /^\s*(#{1,6})\s*(.*)/}, //#
   ];
   const childRegex = [
     {type: 'hide', reg: /<hide>(.*?)<\/hide>/g},
@@ -118,11 +123,11 @@ const translate = (context, rules, state) => {
     return oneLine;
   };
 
-  const mapOne = (obs) => {
+  const mapOne = (obs, key) => {
     let oneLine = [];
     if (Array.isArray(obs)) {
       obs.map(function(ob, i) {
-        oneLine.push(rules[ob.type](mapOne(ob.content), i, state));
+        oneLine.push(rules[ob.type](mapOne(ob.content), key + '-' + i, state));
       })
     } else {
       oneLine = obs;
@@ -131,26 +136,23 @@ const translate = (context, rules, state) => {
   };
 
   contextArray.map(function(text, i) {
+    let mat, arr;
     regex.map(function(reg) {
       let re = text.match(reg.reg);
       if (re) {
-        let mat = parseChildrenRegex(re[2]);
-        let arr = mapOne(mat);
-        results[i] = {element: rules[reg.type]({type: re[1], children: arr}, i, state), interval: rules['interval'](countN[i] || 0, i)};
+        mat = parseChildrenRegex(re[2]);
+        arr = mapOne(mat, i);
+        results[i] = {element: rules[reg.type]({type: re[1], children: arr}, i), interval: rules['interval'](countN[i] || 0, i)};
         return true;
       }
     });
     if (!results[i]) {
-      let mat = parseChildrenRegex(text);
-      let arr = mapOne(mat);
+      mat = parseChildrenRegex(text);
+      arr = mapOne(mat, i);
       results[i] = {element: rules['text'](arr, i), interval: rules['interval'](countN[i] || 0, i)};
     }
   });
   return results;
-};
-
-const Hide = ({isHide, children}) => {
-  return isHide ? <Text> </Text> : <Text>{children}</Text>
 };
 
 export default class MarkDown extends Component {
