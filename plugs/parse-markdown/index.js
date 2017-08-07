@@ -20,6 +20,9 @@ const styles = {
   heading6: {
     fontSize: 11
   },
+  italic: {
+    fontStyle: 'italic'
+  },
   interval: 10
 };
 
@@ -38,10 +41,17 @@ const defaultRules = (styles = Styles) => ({
       content
     );
   },
+  italic: (text, key) => {
+    return React.createElement(
+      Text,
+      {key: key, style: styles.italic},
+      text
+    );
+  },
   text: (text, key) => {
     return React.createElement(
       Text,
-      {key: key, style: {fontSize: 14}},
+      {key: key},
       text
     );
   },
@@ -62,7 +72,8 @@ const translate = (context, rules, state) => {
     {type: '#', reg: /^\s*(#{1,6})\s*(.*)/}, //head
   ];
   const childRegex = [
-    {type: 'hide', reg: /<hide>(.*)<\/hide>/g},
+    {type: 'hide', reg: /<hide>(.*?)<\/hide>/g},
+    {type: 'italic', reg: /\*(.*?)\*/g},
   ];
   // get \n counts
   const nArray = context.match(/\n+/g);
@@ -74,40 +85,72 @@ const translate = (context, rules, state) => {
   }
   const contextArray = context.split(/\n+/);
 
-  const parseChildrenRegex = (str) => {
-    let line = [];
-    childRegex.map(function(cr, lineKey) {
-      let mat;
-      let lastIndex = 0;
-      while (mat = cr.reg.exec(str)) {
-        let oneStr = str.slice(lastIndex, mat.index);
-        let parseResult = parseChildrenRegex(oneStr);
-        line.push(...parseResult);
-        line.push(rules[cr.type](mat[1], i + '-' + lineKey, state));
-        lastIndex = cr.reg.lastIndex;
+  const parseChildrenRegex = (str, i = 0) => {
+    if (i >= childRegex.length) {
+      return str;
+    }
+    const {type, reg} = childRegex[i];
+    let lastIndex = 0;
+    let mat;
+    let oneLine = [];
+    let n = i+1;
+    let count = 0;
+    while (mat = reg.exec(str)) {
+      count++;
+      if (lastIndex !== mat.index) {
+        let pre = str.slice(lastIndex, mat.index);
+        pre = parseChildrenRegex(pre, n);
+        oneLine.push({content: pre, type: 'text'});
       }
-    });
-    return line;
+      let matContent = mat[1];
+      matContent = parseChildrenRegex(matContent, n);
+      oneLine.push({content: matContent, type: type});
+      lastIndex = reg.lastIndex;
+    }
+    if (lastIndex !== str.length) {
+      let last = str.slice(lastIndex, str.length);
+      last = parseChildrenRegex(last, n);
+      oneLine.push({content: last, type: 'text'});
+    }
+    if (oneLine.length > 0 && count === 0) {
+      oneLine = oneLine[0].content
+    }
+    return oneLine;
+  };
+
+  const mapOne = (obs) => {
+    let oneLine = [];
+    if (Array.isArray(obs)) {
+      obs.map(function(ob, i) {
+        oneLine.push(rules[ob.type](mapOne(ob.content), i, state));
+      })
+    } else {
+      oneLine = obs;
+    }
+    return oneLine;
   };
 
   contextArray.map(function(text, i) {
     regex.map(function(reg) {
       let re = text.match(reg.reg);
       if (re) {
-        extracted(re, reg, i);
-        results[i] = {element: rules[reg.type]({type: re[1], children: line}, i, state), interval: rules['interval'](countN[i] || 0, i)};
+        let mat = parseChildrenRegex(re[2]);
+        let arr = mapOne(mat);
+        results[i] = {element: rules[reg.type]({type: re[1], children: arr}, i, state), interval: rules['interval'](countN[i] || 0, i)};
         return true;
       }
     });
     if (!results[i]) {
-      results[i] = {element: rules['text'](text, i), interval: rules['interval'](countN[i] || 0, i)};
+      let mat = parseChildrenRegex(text);
+      let arr = mapOne(mat);
+      results[i] = {element: rules['text'](arr, i), interval: rules['interval'](countN[i] || 0, i)};
     }
   });
   return results;
 };
 
 const Hide = ({isHide, children}) => {
-  return isHide ? null : <Text>{children}</Text>
+  return isHide ? <Text> </Text> : <Text>{children}</Text>
 };
 
 export default class MarkDown extends Component {
