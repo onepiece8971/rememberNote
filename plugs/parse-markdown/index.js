@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, TouchableWithoutFeedback} from 'react-native';
 
 const styles = {
   heading1: {
@@ -24,12 +24,18 @@ const styles = {
 };
 
 const defaultRules = (styles = Styles) => ({
-  '#': (re, key) => {
-    const head = {level: re[1].length, content: re[2]};
+  '#': ({type, children}, key) => {
     return React.createElement(
       Text,
-      {key: key, style: styles['heading' + head.level]},
-      head.content
+      {key: key, style: styles['heading' + type.length]},
+      children
+    );
+  },
+  hide: (content, key, state) => {
+    return React.createElement(
+      Hide,
+      {key: key, isHide: state.isHide},
+      content
     );
   },
   text: (text, key) => {
@@ -47,13 +53,16 @@ const defaultRules = (styles = Styles) => ({
       View,
       {key: 'interval' + key, style: {margin: 0, padding: 0, height: styles.interval * n}},
     );
-  }
+  },
 });
 
-const translate = (context, rules) => {
+const translate = (context, rules, state) => {
   let results = [];
-  const regex  = [
+  const regex = [
     {type: '#', reg: /^\s*(#{1,6})\s*(.*)/}, //head
+  ];
+  const childRegex = [
+    {type: 'hide', reg: /<hide>(.*)<\/hide>/g},
   ];
   // get \n counts
   const nArray = context.match(/\n+/g);
@@ -64,11 +73,29 @@ const translate = (context, rules) => {
     });
   }
   const contextArray = context.split(/\n+/);
+
+  const parseChildrenRegex = (str) => {
+    let line = [];
+    childRegex.map(function(cr, lineKey) {
+      let mat;
+      let lastIndex = 0;
+      while (mat = cr.reg.exec(str)) {
+        let oneStr = str.slice(lastIndex, mat.index);
+        let parseResult = parseChildrenRegex(oneStr);
+        line.push(...parseResult);
+        line.push(rules[cr.type](mat[1], i + '-' + lineKey, state));
+        lastIndex = cr.reg.lastIndex;
+      }
+    });
+    return line;
+  };
+
   contextArray.map(function(text, i) {
     regex.map(function(reg) {
       let re = text.match(reg.reg);
       if (re) {
-        results[i] = {element: rules[reg.type](re, i), interval: rules['interval'](countN[i] || 0, i)};
+        extracted(re, reg, i);
+        results[i] = {element: rules[reg.type]({type: re[1], children: line}, i, state), interval: rules['interval'](countN[i] || 0, i)};
         return true;
       }
     });
@@ -79,19 +106,36 @@ const translate = (context, rules) => {
   return results;
 };
 
+const Hide = ({isHide, children}) => {
+  return isHide ? null : <Text>{children}</Text>
+};
+
 export default class MarkDown extends Component {
   static Styles = styles;
   static DefaultRules = defaultRules;
+  constructor() {
+    super();
+    this.state = {isHide: false};
+  }
+  toggle = () => {
+    this.setState({
+      isHide: !this.state.isHide,
+    });
+  };
   render() {
     let child = this.props.children || '';
     child = Array.isArray(child)
       ? child.join('') : child;
-    const results = translate(child, MarkDown.DefaultRules(MarkDown.Styles));
+    const results = translate(child, MarkDown.DefaultRules(MarkDown.Styles), this.state);
     let mapArray = [];
     results.map(function(v){
       mapArray.push(v.element, v.interval);
     });
-    return <View>{mapArray}</View>
+    return (
+      <TouchableWithoutFeedback onPress={() => this.toggle()}>
+        <View style={{flex: 1}}>{mapArray}</View>
+      </TouchableWithoutFeedback>
+    )
   }
 }
 
