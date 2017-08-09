@@ -1,5 +1,11 @@
 import React, {Component} from 'react';
-import {View, Text, TouchableWithoutFeedback} from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  TouchableWithoutFeedback
+} from 'react-native';
+import Sound from 'react-native-sound';
 
 const styles = {
   heading1: {
@@ -23,6 +29,11 @@ const styles = {
   italic: {
     fontStyle: 'italic'
   },
+  image: {
+    width:       300,
+    height:      300,
+    borderWidth: 0
+  },
   interval: 10
 };
 
@@ -36,6 +47,7 @@ const defaultRules = (styles = Styles) => ({
     );
   },
   hide: (content, key, state) => {
+    state.haveHide = true;
     let props = {key: key};
     if (state.isHide) {
       props.style = {color: '#fff'};
@@ -53,12 +65,32 @@ const defaultRules = (styles = Styles) => ({
       text
     );
   },
+  image: (content, key, state) => {
+    return React.createElement(
+      Image,
+      {
+        key:    key,
+//       resizeMode: styles.resizeMode ? styles.resizeMode : 'contain',
+        source: {uri: content.uri},
+        style:  styles.image
+      }
+    )
+  },
+  sound: (uri, key, state) => {
+    return React.createElement(
+      Audio,
+      {key: key, uri: uri}
+    )
+  },
   text: (text, key) => {
     return React.createElement(
       Text,
       {key: key},
       text
     );
+  },
+  nothing: (content) => {
+    return content;
   },
   interval: (n, key) => {
     if (!n) {
@@ -72,6 +104,9 @@ const defaultRules = (styles = Styles) => ({
 });
 
 const translate = (context, rules, state) => {
+  const LINK_INSIDE = "(?:\\[[^\\]]*\\]|[^\\]]|\\](?=[^\\[]*\\]))*";
+  const LINK_HREF_AND_TITLE = "\\s*<?((?:[^\\s\\\\]|\\\\.)*?)>?(?:\\s+['\"]([\\s\\S]*?)['\"])?\\s*";
+
   let results = [];
   const regex = [
     {type: 'head', reg: /^\s*(#{1,6})\s*(.*)/}, //#
@@ -79,6 +114,11 @@ const translate = (context, rules, state) => {
   const childRegex = [
     {type: 'hide', reg: /<hide>(.*?)<\/hide>/g},
     {type: 'italic', reg: /\*(.*?)\*/g},
+    {type: 'image', reg: new RegExp(
+      "!\\[(" + LINK_INSIDE + ")\\]\\(" + LINK_HREF_AND_TITLE + "\\)",
+      'g'
+    )},
+    {type: 'sound', reg: /(?:<s>)\((.*)\)/g},
   ];
   // get \n counts
   const nArray = context.match(/\n+/g);
@@ -99,27 +139,40 @@ const translate = (context, rules, state) => {
     let mat;
     let oneLine = [];
     let n = i+1;
-    let count = 0;
+//     let count = 0;
     while (mat = reg.exec(str)) {
-      count++;
+//       count++;
       if (lastIndex !== mat.index) {
         let pre = str.slice(lastIndex, mat.index);
         pre = parseChildrenRegex(pre, n);
-        oneLine.push({content: pre, type: 'text'});
+        if (Array.isArray(pre)) {
+          oneLine.push(...pre)
+        } else {
+          oneLine.push({content: pre, type: 'nothing'});
+        }
       }
-      let matContent = mat[1];
-      matContent = parseChildrenRegex(matContent, n);
+      // 如图片或链接这些不需要递归解析
+      let matContent;
+      if (mat.length > 2) {
+        matContent = {alt: mat[1], uri: mat[2]}
+      } else {
+        matContent = parseChildrenRegex(mat[1], n);
+      }
       oneLine.push({content: matContent, type: type});
       lastIndex = reg.lastIndex;
     }
     if (lastIndex !== str.length) {
       let last = str.slice(lastIndex, str.length);
       last = parseChildrenRegex(last, n);
-      oneLine.push({content: last, type: 'text'});
+      if (Array.isArray(last)) {
+        oneLine.push(...last)
+      } else {
+        oneLine.push({content: last, type: 'nothing'});
+      }
     }
-    if (oneLine.length > 0 && count === 0) {
+    /*if (oneLine.length > 0 && count === 0) {
       oneLine = oneLine[0].content
-    }
+    }*/
     return oneLine;
   };
 
@@ -155,19 +208,46 @@ const translate = (context, rules, state) => {
   return results;
 };
 
+const Audio = ({uri}) => {
+  const sound = new Sound(uri, Sound.MAIN_BUNDLE, (error) => {
+    if (error) {
+      console.log(error)
+    }
+  });
+  return (
+    <Text onPress={() => sound.play((success) => {
+      if (!success) {
+        console.log('Sound did not play');
+      }
+    })
+    }>
+      <Image source={require('./sound@3x.png')} style={{width: 50, height: 50}} />
+    </Text>
+  )
+};
+
 export default class MarkDown extends Component {
   static Styles = styles;
   static DefaultRules = defaultRules;
+
   constructor() {
     super();
-    this.state = {isHide: false};
+    this.state = {
+      isHide: false,
+      haveHide: false
+    };
   }
+
   toggle = () => {
-    this.setState({
-      isHide: !this.state.isHide,
-    });
+    if (this.state.haveHide) {
+      this.setState({
+        isHide: !this.state.isHide,
+      });
+    }
   };
+
   render() {
+    this.state.haveHide = false;
     let child = this.props.children || '';
     child = Array.isArray(child)
       ? child.join('') : child;
