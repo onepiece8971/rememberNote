@@ -30,8 +30,8 @@ const styles = {
     fontStyle: 'italic'
   },
   image: {
-    width:       300,
-    height:      300,
+    width:       100,
+    height:      100,
     borderWidth: 0
   },
   interval: 10
@@ -40,10 +40,26 @@ const styles = {
 const defaultRules = (styles = Styles) => ({
   head: (content, key) => {
     const {type, children} = content;
+    let reContent = [];
+    console.log(children);
+    if (Array.isArray(children)) {
+      children.map(function(v) {
+        if (v.type.displayName === 'Text') {
+          v = React.createElement(
+            Text,
+            {key: v.key, style: [styles['heading' + type.length], v.props.style]},
+            v.props.children
+          );
+        }
+        reContent.push(v)
+      })
+    } else {
+      reContent = children
+    }
     return React.createElement(
-      Text,
-      {key: key, style: styles['heading' + type.length]},
-      children
+      View,
+      {key: key, style: {flexDirection: 'row', alignItems: 'center'}},
+      reContent
     );
   },
   hide: (content, key, state) => {
@@ -148,7 +164,7 @@ const translate = (context, rules, state) => {
         if (Array.isArray(pre)) {
           oneLine.push(...pre)
         } else {
-          oneLine.push({content: pre, type: 'nothing'});
+          oneLine.push({content: pre, type: 'text'});
         }
       }
       // 如图片或链接这些不需要递归解析
@@ -167,7 +183,7 @@ const translate = (context, rules, state) => {
       if (Array.isArray(last)) {
         oneLine.push(...last)
       } else {
-        oneLine.push({content: last, type: 'nothing'});
+        oneLine.push({content: last, type: 'text'});
       }
     }
     /*if (oneLine.length > 0 && count === 0) {
@@ -202,7 +218,7 @@ const translate = (context, rules, state) => {
     if (!results[i]) {
       mat = parseChildrenRegex(text);
       arr = mapOne(mat, i);
-      results[i] = {element: rules['text'](arr, i), interval: rules['interval'](countN[i] || 0, i)};
+      results[i] = {element: rules['nothing'](arr, i), interval: rules['interval'](countN[i] || 0, i)};
     }
   });
   return results;
@@ -220,8 +236,14 @@ const Audio = ({uri}) => {
         console.log('Sound did not play');
       }
     })
-    }>
-      <Image source={require('./sound@3x.png')} style={{width: 50, height: 50}} />
+    } style={{
+      paddingLeft: 10,
+      paddingRight: 10,
+    }}>
+      <Image source={require('./sound@3x.png')} style={{
+        width: 50,
+        height: 50,
+      }} />
     </Text>
   )
 };
