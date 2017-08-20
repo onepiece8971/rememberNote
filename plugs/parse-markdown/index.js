@@ -34,16 +34,15 @@ const styles = {
     height:      100,
     borderWidth: 0
   },
-  interval: 10
+  interval: 5
 };
 
 const defaultRules = (styles = Styles) => ({
-  head: (content, key) => {
-    const {type, children} = content;
-    let reContent = [];
-    console.log(children);
-    if (Array.isArray(children)) {
-      children.map(function(v) {
+  head: (content, key, state, match) => {
+    const type = match[1];
+    if (Array.isArray(content)) {
+      let reContent = [];
+      content.map(function(v) {
         if (v.type.displayName === 'Text') {
           v = React.createElement(
             Text,
@@ -52,24 +51,28 @@ const defaultRules = (styles = Styles) => ({
           );
         }
         reContent.push(v)
-      })
+      });
+      return React.createElement(
+        View,
+        {key: key, style: {flexDirection: 'row', alignItems: 'center'}},
+        reContent
+      );
     } else {
-      reContent = children
+      return React.createElement(
+        Text,
+        {key: key, style: styles['heading' + type.length]},
+        content
+      );
     }
-    return React.createElement(
-      View,
-      {key: key, style: {flexDirection: 'row', alignItems: 'center'}},
-      reContent
-    );
   },
   hide: (content, key, state) => {
     state.haveHide = true;
     let props = {key: key};
     if (state.isHide) {
-      props.style = {color: '#fff'};
+      props.style = {opacity: 0};
     }
     return React.createElement(
-      Text,
+      View,
       props,
       content
     );
@@ -108,12 +111,10 @@ const defaultRules = (styles = Styles) => ({
   nothing: (content) => {
     return content;
   },
-  interval: (n, key) => {
-    if (!n) {
-      return null;
-    }
+  interval: (content, key, state, match) => {
+    let n = match.length - 1;
     return React.createElement(
-      View,
+      Text,
       {key: 'interval' + key, style: {margin: 0, padding: 0, height: styles.interval * n}},
     );
   },
@@ -123,34 +124,23 @@ const translate = (context, rules, state) => {
   const LINK_INSIDE = "(?:\\[[^\\]]*\\]|[^\\]]|\\](?=[^\\[]*\\]))*";
   const LINK_HREF_AND_TITLE = "\\s*<?((?:[^\\s\\\\]|\\\\.)*?)>?(?:\\s+['\"]([\\s\\S]*?)['\"])?\\s*";
 
-  let results = [];
   const regex = [
-    {type: 'head', reg: /^\s*(#{1,6})\s*(.*)/}, //#
-  ];
-  const childRegex = [
-    {type: 'hide', reg: /<hide>(.*?)<\/hide>/g},
+    {type: 'head', reg: /\s*(#{1,6})\s*(.*)(?:\n*)/g},
+    {type: 'hide', reg: /<hide>([\s\S]*?)<\/hide>/g},
+    {type: 'interval', reg: /(\n+)/g},
     {type: 'italic', reg: /\*(.*?)\*/g},
     {type: 'image', reg: new RegExp(
       "!\\[(" + LINK_INSIDE + ")\\]\\(" + LINK_HREF_AND_TITLE + "\\)",
       'g'
     )},
-    {type: 'sound', reg: /(?:<s>)\((.*)\)/g},
+    {type: 'sound', reg: /(?:<s>)\((.*?)\)/g},
   ];
-  // get \n counts
-  const nArray = context.match(/\n+/g);
-  let countN = [];
-  if (nArray) {
-    nArray.map(function(v, i) {
-      countN[i] = v.length;
-    });
-  }
-  const contextArray = context.split(/\n+/);
 
-  const parseChildrenRegex = (str, i = 0) => {
-    if (i >= childRegex.length) {
+  const parseRegex = (str, i = 0) => {
+    if (i >= regex.length) {
       return str;
     }
-    const {type, reg} = childRegex[i];
+    const {type, reg} = regex[i];
     let lastIndex = 0;
     let mat;
     let oneLine = [];
@@ -160,30 +150,34 @@ const translate = (context, rules, state) => {
 //       count++;
       if (lastIndex !== mat.index) {
         let pre = str.slice(lastIndex, mat.index);
-        pre = parseChildrenRegex(pre, n);
+        pre = parseRegex(pre, n);
         if (Array.isArray(pre)) {
           oneLine.push(...pre)
         } else {
-          oneLine.push({content: pre, type: 'text'});
+          oneLine.push({content: pre, type: 'text', match: null});
         }
       }
       // 如图片或链接这些不需要递归解析
       let matContent;
       if (mat.length > 2) {
-        matContent = {alt: mat[1], uri: mat[2]}
+        if (type === 'head') {
+          matContent = parseRegex(mat[2], n);
+        } else {
+          matContent = {alt: mat[1], uri: mat[2]};
+        }
       } else {
-        matContent = parseChildrenRegex(mat[1], n);
+        matContent = parseRegex(mat[1], n);
       }
-      oneLine.push({content: matContent, type: type});
+      oneLine.push({content: matContent, type: type, match: mat});
       lastIndex = reg.lastIndex;
     }
     if (lastIndex !== str.length) {
       let last = str.slice(lastIndex, str.length);
-      last = parseChildrenRegex(last, n);
+      last = parseRegex(last, n);
       if (Array.isArray(last)) {
         oneLine.push(...last)
       } else {
-        oneLine.push({content: last, type: 'text'});
+        oneLine.push({content: last, type: 'text', match: null});
       }
     }
     /*if (oneLine.length > 0 && count === 0) {
@@ -192,11 +186,11 @@ const translate = (context, rules, state) => {
     return oneLine;
   };
 
-  const mapOne = (obs, key) => {
+  const mapOne = (obs) => {
     let oneLine = [];
     if (Array.isArray(obs)) {
       obs.map(function(ob, i) {
-        oneLine.push(rules[ob.type](mapOne(ob.content), key + '-' + i, state));
+        oneLine.push(rules[ob.type](mapOne(ob.content), i, state, ob.match));
       })
     } else {
       oneLine = obs;
@@ -204,23 +198,12 @@ const translate = (context, rules, state) => {
     return oneLine;
   };
 
-  contextArray.map(function(text, i) {
-    let mat, arr;
-    regex.map(function(reg) {
-      let re = text.match(reg.reg);
-      if (re) {
-        mat = parseChildrenRegex(re[2]);
-        arr = mapOne(mat, i);
-        results[i] = {element: rules[reg.type]({type: re[1], children: arr}, i), interval: rules['interval'](countN[i] || 0, i)};
-        return true;
-      }
-    });
-    if (!results[i]) {
-      mat = parseChildrenRegex(text);
-      arr = mapOne(mat, i);
-      results[i] = {element: rules['nothing'](arr, i), interval: rules['interval'](countN[i] || 0, i)};
-    }
-  });
+  let pr = parseRegex(context);
+  let results = null;
+  if (pr.length > 0) {
+    console.log(pr);
+    results = mapOne(pr);
+  }
   return results;
 };
 
@@ -255,7 +238,7 @@ export default class MarkDown extends Component {
   constructor() {
     super();
     this.state = {
-      isHide: false,
+      isHide: true,
       haveHide: false
     };
   }
@@ -274,13 +257,9 @@ export default class MarkDown extends Component {
     child = Array.isArray(child)
       ? child.join('') : child;
     const results = translate(child, MarkDown.DefaultRules(MarkDown.Styles), this.state);
-    let mapArray = [];
-    results.map(function(v){
-      mapArray.push(v.element, v.interval);
-    });
     return (
       <TouchableWithoutFeedback onPress={() => this.toggle()}>
-        <View style={{flex: 1}}>{mapArray}</View>
+        <View style={{flex: 1}}>{results}</View>
       </TouchableWithoutFeedback>
     )
   }
