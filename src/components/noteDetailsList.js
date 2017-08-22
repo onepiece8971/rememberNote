@@ -61,15 +61,18 @@ const RightViewComp = ({isMemory}) => {
   )
 };
 
-export default NoteDetailsList = ({posts, userBooksId, userBooksName, getPost}) => {
+const PostMax = 50;
+
+export default NoteDetailsList = ({posts, userBooksId, userBooksName, getPost, getPosts}) => {
   if (posts) {
     const data = [];
     posts.map(function(v, i) {
+      const content = v.Content.split("\n")[3];
       data.push({
         key:      i,
         id:       v.Id,
         name:     v.Name,
-        content:  v.Content,
+        content:  content.substr(0, 20),
         level:    v.Level,
       });
     });
@@ -87,8 +90,11 @@ export default NoteDetailsList = ({posts, userBooksId, userBooksName, getPost}) 
                 ({item}) => (<DetailsView item={item} userBooksId={userBooksId} getPost={getPost} />)
               }
               getItemLayout={(data, index) => (
-                {length: CS.h(120), offset: CS.h(120) * index, index}
+                {length: CS.h(84), offset: CS.h(84) * index, index}
               )}
+              refreshing={true}
+              onEndReached={() => getPosts(userBooksId, Math.ceil(posts.length / PostMax) + 1)}
+              onEndReachedThreshold={0.2}
             />
           </ContentView>
         </MainView>

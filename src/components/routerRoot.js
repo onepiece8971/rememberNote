@@ -8,7 +8,7 @@ import NoteDetails from '../containers/noteDetails';
 
 const history = createHistory();
 
-export default RouterRoot = ({getBooks, userBooks, getPosts}) => {
+export default RouterRoot = ({getBooks, userBooks, getPostsInit}) => {
   const init = () => {
     getBooks();
     userBooks(1, false);
@@ -19,7 +19,7 @@ export default RouterRoot = ({getBooks, userBooks, getPosts}) => {
         <Route exact path="/" component={Main} onEnter={init()} />
         <Route path="/allNote" component={AllNote} onEnter={userBooks(1, true)} />
         <Route path="/noteDetailsList/:userBooksId" children={({match, ...rest}) => {
-          getPosts(match.params.userBooksId);
+          getPostsInit(match.params.userBooksId, 1);
           return <NoteDetailsList userBooksId={match.params.userBooksId} {...rest} />
         }}/>
         <Route exact path="/noteDetails" component={NoteDetails} />
