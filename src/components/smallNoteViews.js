@@ -33,12 +33,12 @@ export default SmallNoteViews = ({item, getUserBooksId, ...rest}) => (
         </MiddleTextView>
         <FootTextViewComp isMemory={item.isMemory} usedPages={item.usedPages} pageNum={item.pageNum}/>
       </TextView>
-      <RightViewComp isMemory={item.isMemory} userBooksId={item.id} {...rest} />
+      <RightViewComp isMemory={item.isMemory} getUserBooksId={getUserBooksId} userBooksId={item.id} {...rest} />
     </SmallView>
   </SmallContentView>
 );
 
-const RightViewComp = ({isMemory, userBooksId, review, getPointPost}) => {
+const RightViewComp = ({isMemory, getUserBooksId, userBooksId, review, getPointPost}) => {
   return isMemory ? (
     <RightView>
       <Svg width={CS.w(12)} height={CS.h(16)} viewBox="0 0 9 12">
@@ -46,6 +46,7 @@ const RightViewComp = ({isMemory, userBooksId, review, getPointPost}) => {
                  fill="rgba(252, 200, 194, 0.58)"/>
       </Svg>
       <RightViewButton onPress={async () => {
+        getUserBooksId(userBooksId);
         const json = await review(userBooksId);
         if (json.payload.length > 0) {
           getPointPost();

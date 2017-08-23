@@ -2,9 +2,8 @@ import {handleActions} from 'redux-actions';
 
 const post = handleActions(
   {
-    ['POST']:        (post, {payload}) => ({...post, current: payload}),
+    ['POST']:        (post, {payload}) => ({...post, current: payload, isSuccess: {...post.isSuccess, addRecite: 0}}),
     ['REVIEW']:      (post, {payload}) => ({...post, reviews: payload, point: 0}),
-    ['PUSHTOPOST']:  (post, {payload}) => ({...post, current: payload}),
     ['ADDRECITE']:   (post, {payload}) => ({...post, isSuccess: {...post.isSuccess, addRecite: payload}}),
     ['USERBOOKSID']: (post, {payload}) => ({...post, ubId: payload}),
     ['UPLEVEL']:     (post, {payload}) => ({...post, isSuccess: {...post.isSuccess, upLevel: payload}}),

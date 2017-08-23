@@ -4,7 +4,7 @@ import {addReciteApi, upLevelApi} from '../api/recite';
 
 const post = createAction('POST', getPostById);
 
-const pushToPost = createAction('PUSHTOPOST');
+const pushToPost = createAction('POST');
 
 const getUserBooksId = createAction('USERBOOKSID');
 
@@ -16,22 +16,35 @@ const upLevel = createAction('UPLEVEL', upLevelApi);
 
 const addPoint = createAction('POINT');
 
-const getPost = (ubId, postId) => {
+const getPost = (ubId, pageId) => {
   return (dispatch, getState) => {
     const state = getState();
-    if (state.post.current.Id !== postId) {
-      dispatch(post(ubId, postId));
+    const usedPages = state.remember.userBooks.userBooks[ubId].UsedPages;
+    if (pageId < 1 || pageId > usedPages) {
+      return false
+    }
+    const current = state.post.current;
+    if (current.UserBooksId === ubId && current.Page === pageId) {
+      return true
+    } else {
+      dispatch(post(ubId, pageId));
     }
   }
 };
 
 const getPointPost = () => {
-  return (dispatch, getState) => {
+  return async (dispatch, getState) => {
     const state = getState();
     const point = state.post.point;
     const reviews = state.post.reviews;
-    if (reviews.length === undefined || reviews.length < point + 1) {
-      return true;
+    if (reviews.length < point + 1) {
+      const json = await dispatch(review(state.post.ubId));
+      const newReviews = json.payload;
+      if (newReviews.length === 0) {
+        return true;
+      }
+      dispatch(pushToPost(newReviews[0]));
+      return false;
     } else {
       dispatch(pushToPost(reviews[point]));
       return false;

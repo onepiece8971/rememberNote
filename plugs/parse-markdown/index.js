@@ -90,7 +90,7 @@ const defaultRules = (styles = Styles) => ({
       {
         key:    key,
 //       resizeMode: styles.resizeMode ? styles.resizeMode : 'contain',
-        source: {uri: content.uri},
+        source: {uri: content.uri || 'http://192.168.31.191:8080/static/img/head.jpg'},
         style:  styles.image
       }
     )
@@ -201,7 +201,6 @@ const translate = (context, rules, state) => {
   let pr = parseRegex(context);
   let results = null;
   if (pr.length > 0) {
-    console.log(pr);
     results = mapOne(pr);
   }
   return results;
@@ -251,16 +250,28 @@ export default class MarkDown extends Component {
     }
   };
 
+  componentWillReceiveProps() {
+    this.setState({
+      isHide: this.props.hide,
+    });
+  }
+
+  defaultProps = {
+    hide: false
+  };
+
   render() {
-    this.state.haveHide = false;
     let child = this.props.children || '';
     child = Array.isArray(child)
       ? child.join('') : child;
     const results = translate(child, MarkDown.DefaultRules(MarkDown.Styles), this.state);
+    const {...rest} = this.props;
     return (
-      <TouchableWithoutFeedback onPress={() => this.toggle()}>
-        <View style={{flex: 1}}>{results}</View>
-      </TouchableWithoutFeedback>
+      <View {...rest} style={{flex: 1}}>
+        <TouchableWithoutFeedback onPress={() => this.toggle()}>
+          <View>{results}</View>
+        </TouchableWithoutFeedback>
+      </View>
     )
   }
 }

@@ -27,7 +27,7 @@ const DetailsView = ({item, userBooksId, getPost}) => (
     <DetailsSmallView>
       <TextView>
         <TitleText onPress={() => {
-          getPost(userBooksId, item.id);
+          getPost(userBooksId, item.page);
           history.push('/noteDetails')
         }}>{item.name}</TitleText>
         <MiddleTextView>
@@ -74,6 +74,7 @@ export default NoteDetailsList = ({posts, userBooksId, userBooksName, getPost, g
         name:     v.Name,
         content:  content.substr(0, 20),
         level:    v.Level,
+        page:     v.Page,
       });
     });
     return (

@@ -11,7 +11,8 @@ import {BottomTag} from './bottom';
 
 export default Remember = ({userBooks}) => {
   const data = [];
-  userBooks.map(function(v, i){
+  for (let i in userBooks) {
+    let v = userBooks[i];
     data.push({
       key:       i,
       id:        v.Id,
@@ -22,7 +23,7 @@ export default Remember = ({userBooks}) => {
       pageNum:   v.PageNum,
       isMemory:  v.IsMemory && true,
     });
-  });
+  }
   return (
     <View style={{flex: 1}}>
       <ContentView>

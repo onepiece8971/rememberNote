@@ -11,9 +11,9 @@ const getPostsByUserBooksId = async (userBooksId, page) => {
   }
 };
 
-const getPostById = async (ubId, postId) => {
+const getPostById = async (ubId, pageId) => {
   try {
-    let response = await fetch(url + 'post/' + ubId + '/' + postId);
+    let response = await fetch(url + 'post/' + ubId + '/' + pageId);
     const json = await response.json();
 //     console.log(json);
     return json;

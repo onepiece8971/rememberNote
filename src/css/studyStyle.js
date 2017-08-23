@@ -18,7 +18,7 @@ color: ${colors.white};
 
 const ContentView = styled.View`
 flex: 1;
-padding: ${CS.h(20)}px ${CS.w(12)}px;
+padding: ${CS.h(10)}px ${CS.w(12)}px;
 `;
 
 const RowText = YaHeiText.extend`

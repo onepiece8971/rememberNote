@@ -13,7 +13,8 @@ import SmallNoteViews from '../containers/smallNoteViews';
 
 export default AllNote = ({userBooks}) => {
   const data = [];
-  userBooks.map(function(v, i){
+  for (let i in userBooks) {
+    let v = userBooks[i];
     data.push({
       key:       i,
       id:        v.Id,
@@ -24,7 +25,7 @@ export default AllNote = ({userBooks}) => {
       pageNum:   v.PageNum,
       isMemory:  v.IsMemory && true,
     });
-  });
+  }
   return (
     <Menu>
       <MainView>
