@@ -6,7 +6,6 @@ export default connect(
   state => ({
     post: state.post.current,
     ubId: state.post.ubId,
-    addReciteOk: state.post.isSuccess.addRecite,
   }),
   {
     addRecite:    addRecite,

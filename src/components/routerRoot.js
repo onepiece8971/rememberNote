@@ -1,4 +1,5 @@
 import React from 'react';
+import {Platform, BackHandler} from 'react-native';
 import {Router, Route, Switch} from 'react-router-native';
 import createHistory from 'history/createMemoryHistory';
 import Main from '../containers/main';
@@ -6,12 +7,26 @@ import AllNote from '../containers/allNote';
 import NoteDetailsList from '../containers/noteDetailsList';
 import NoteDetails from '../containers/noteDetails';
 
-const history = createHistory();
+let history = createHistory();
 
 export default RouterRoot = ({getBooks, userBooks, getPostsInit}) => {
+  let backEvent = {};
+  let forward = 0;
+  const back = () => {
+    forward = history.index;
+    history.go(-1);
+    if (forward === history.index) {
+      backEvent.remove();
+      return false
+    }
+    return true
+  };
   const init = () => {
     getBooks();
     userBooks(1, false);
+    if (Platform.OS === 'android') {
+      backEvent = BackHandler.addEventListener('hardwareBackPress', back);
+    }
   };
   return (
     <Router history={history}>

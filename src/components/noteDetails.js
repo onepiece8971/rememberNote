@@ -124,12 +124,13 @@ const RememberButton = ({review, post, upLevel, addPoint, getPointPost, ...rest}
   }
 };
 
-const AddReciteView = ({post, addRecite, ubId, addReciteOk}) => {
-  return addReciteOk ? null : (
-    <NormalFootButton onPress={() => {
-      addRecite(ubId, post.Id);
-    }}>
-      <RememberTopButtonText>加入记忆</RememberTopButtonText>
-    </NormalFootButton>
-  )
-};
+const AddReciteView = ({post, addRecite, ubId, getPost}) => (
+  <NormalFootButton onPress={async () => {
+    const success = await addRecite(ubId, post.Id);
+    if (success.payload) {
+      getPost(ubId, post.Page + 1)
+    }
+  }}>
+    <RememberTopButtonText>加入记忆</RememberTopButtonText>
+  </NormalFootButton>
+);

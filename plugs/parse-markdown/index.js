@@ -90,7 +90,7 @@ const defaultRules = (styles = Styles) => ({
       {
         key:    key,
 //       resizeMode: styles.resizeMode ? styles.resizeMode : 'contain',
-        source: {uri: content.uri || 'http://192.168.31.191:8080/static/img/head.jpg'},
+        source: content.uri ? {uri: content.uri} : require('./null.png'),
         style:  styles.image
       }
     )

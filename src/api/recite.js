@@ -1,4 +1,4 @@
-const url = 'http://192.168.31.191:8080/';
+import url from './base'
 
 const addReciteApi = async (ubId, postId) => {
   try {
