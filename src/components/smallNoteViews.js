@@ -17,16 +17,18 @@ import {
   ButtonText,
   RightView
 } from '../css/noteStyles';
-import {history} from '../components/routerRoot';
+import {globalNavigation} from './main';
 
-export default SmallNoteViews = ({item, getUserBooksId, ...rest}) => (
+export default SmallNoteViews = ({item, getUserBooksId, getPostsInit, ...rest}) => (
   <SmallContentView>
     <SmallView>
       <CoverImage source={{uri: item.cover}} />
       <TextView>
         <TitleText onPress={() => {
           getUserBooksId(item.id);
-          history.push('/noteDetailsList/' + item.id);
+//           history.push('/noteDetailsList/' + item.id);
+          getPostsInit(item.id, 1);
+          globalNavigation.navigate('NoteDetailsList');
         }}>{item.name}</TitleText>
         <MiddleTextView>
           <MiddleText>{item.info}</MiddleText>
@@ -50,7 +52,7 @@ const RightViewComp = ({isMemory, getUserBooksId, userBooksId, review, getPointP
         const json = await review(userBooksId);
         if (json.payload.length > 0) {
           getPointPost();
-          history.push('/noteDetails/review')
+          globalNavigation.navigate('NoteDetails', {review: true});
         }
       }}>
         <ButtonText>复习</ButtonText>

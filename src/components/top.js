@@ -8,17 +8,14 @@ import {
 } from '../css/styles';
 import Svg, {Path} from 'react-native-svg';
 import CS from '../css/convertSize';
-import {history} from '../components/routerRoot';
 
-export default Top = ({back, toggle}) => (
+export default Top = ({back, toggle, navigation}) => (
   <View>
     <AppStatusBar/>
     <TopView>
       {
         back ? (
-          <TouchableOpacity onPress={() => {
-            history.go(-1)
-          }} style={{justifyContent: 'center', width: CS.w(21), height: '100%'}}>
+          <TouchableOpacity onPress={() => navigation.goBack()} style={{justifyContent: 'center', width: CS.w(21), height: '100%'}}>
             <Svg width={CS.w(9)} height={CS.h(15)} viewBox="0 0 10 16">
               <Path
                 d="M0,8 C0,7.71323323 0.109520046,7.42646645 0.327917163,7.20785501 L7.20774785,0.328238651 C7.64539938,-0.109412884 8.35481494,-0.109412884 8.79225215,0.328238651 C9.22968936,0.76567586 9.22968936,1.47509142 8.79225215,1.91274296 L2.70478079,8 L8.79203783,14.087257 C9.22947504,14.5246943 9.22947504,15.2343241 8.79203783,15.6717613 C8.35460062,16.1094129 7.64518506,16.1094129 7.20753352,15.6717613 L0.327702838,8.79214499 C0.109305721,8.57353355 0,8.28676677 0,8 Z"

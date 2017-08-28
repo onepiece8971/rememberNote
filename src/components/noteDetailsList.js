@@ -20,15 +20,14 @@ import Svg, {Polygon} from 'react-native-svg';
 import {MainView} from '../css/styles'
 import Menu from '../containers/menu'
 import Top from '../containers/top';
-import {history} from '../components/routerRoot';
 
-const DetailsView = ({item, userBooksId, getPost}) => (
+const DetailsView = ({navigation, item, userBooksId, getPost}) => (
   <DetailsContentView>
     <DetailsSmallView>
       <TextView>
         <TitleText onPress={() => {
           getPost(userBooksId, item.page);
-          history.push('/noteDetails')
+          navigation.navigate('NoteDetails');
         }}>{item.name}</TitleText>
         <MiddleTextView>
           <MiddleText>{item.content}</MiddleText>
@@ -63,7 +62,7 @@ const RightViewComp = ({isMemory}) => {
 
 const PostMax = 50;
 
-export default NoteDetailsList = ({posts, userBooksId, userBooksName, getPost, getPosts}) => {
+export default NoteDetailsList = ({navigation, posts, userBooksId, userBooksName, getPost, getPosts}) => {
   if (posts) {
     const data = [];
     posts.map(function(v, i) {
@@ -72,7 +71,7 @@ export default NoteDetailsList = ({posts, userBooksId, userBooksName, getPost, g
         key:      i,
         id:       v.Id,
         name:     v.Name,
-        content:  content.substr(0, 20),
+        content:  content.substr(0, 26),
         level:    v.Level,
         page:     v.Page,
       });
@@ -80,7 +79,7 @@ export default NoteDetailsList = ({posts, userBooksId, userBooksName, getPost, g
     return (
       <Menu>
         <MainView>
-          <Top back={true} />
+          <Top back={true} navigation={navigation} />
           <ContentView>
             <TopView>
               <TopText>{userBooksName}</TopText>
@@ -88,7 +87,7 @@ export default NoteDetailsList = ({posts, userBooksId, userBooksName, getPost, g
             <FlatList
               data={data}
               renderItem={
-                ({item}) => (<DetailsView item={item} userBooksId={userBooksId} getPost={getPost} />)
+                ({item}) => (<DetailsView item={item} userBooksId={userBooksId} getPost={getPost} navigation={navigation} />)
               }
               getItemLayout={(data, index) => (
                 {length: CS.h(84), offset: CS.h(84) * index, index}

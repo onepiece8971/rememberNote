@@ -12,7 +12,7 @@ import {
 } from '../css/menuStyles';
 import Svg, {Path} from 'react-native-svg';
 import CS from '../css/convertSize';
-import {history} from '../components/routerRoot';
+import {globalNavigation} from '../components/main';
 
 const MenuContent = ({linkOff}) => (
   <MenuView>
@@ -21,8 +21,8 @@ const MenuContent = ({linkOff}) => (
       <MenuUserName>用户名</MenuUserName>
     </MenuTopView>
     <MenuListView>
-      <MenuListText onPress={() => linkOff('/')}>抄/背笔记</MenuListText>
-      <MenuListText onPress={() => linkOff('/allNote')}>所有笔记</MenuListText>
+      <MenuListText onPress={() => linkOff('Home')}>抄/背笔记</MenuListText>
+      <MenuListText onPress={() => linkOff('AllNote')}>所有笔记</MenuListText>
       <MenuListText>已分享</MenuListText>
       <MenuListText>标签</MenuListText>
       <MenuListText>废纸篓</MenuListText>
@@ -44,7 +44,7 @@ const MenuContent = ({linkOff}) => (
 
 export default Menu = ({children, isOpen, update, off}) => {
   const linkOff = (to) => {
-    history.push(to);
+    globalNavigation.navigate(to);
     off();
   };
   return (

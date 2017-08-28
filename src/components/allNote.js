@@ -11,7 +11,7 @@ import Menu from '../containers/menu'
 import Top from '../containers/top';
 import SmallNoteViews from '../containers/smallNoteViews';
 
-export default AllNote = ({userBooks}) => {
+export default AllNote = ({navigation, userBooks}) => {
   const data = [];
   for (let i in userBooks) {
     let v = userBooks[i];
@@ -27,7 +27,7 @@ export default AllNote = ({userBooks}) => {
     });
   }
   return (
-    <Menu>
+    <Menu navigation={navigation}>
       <MainView>
         <Top />
         <ContentView>
@@ -36,7 +36,7 @@ export default AllNote = ({userBooks}) => {
           </TopView>
           <FlatList
             data={data}
-            renderItem={({item}) => (<SmallNoteViews item={item} />)}
+            renderItem={({item}) => (<SmallNoteViews item={item} navigation={navigation} />)}
             getItemLayout={(data, index) => (
               {length: CS.h(120), offset: CS.h(120) * index, index}
             )}
