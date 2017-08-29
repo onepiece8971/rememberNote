@@ -1,4 +1,4 @@
-import url from './base'
+import fetch, {url} from './base';
 
 const addReciteApi = async (ubId, postId) => {
   try {

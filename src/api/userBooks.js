@@ -1,4 +1,4 @@
-import url from './base'
+import fetch, {url} from './base';
 
 const getUserBooksByUid = async (uid, isAll) => {
   const method = isAll ? 'allRemember/' : 'remember/';

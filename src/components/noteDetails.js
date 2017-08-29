@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {TouchableOpacity, PanResponder} from 'react-native';
+import {TouchableOpacity, PanResponder, ToastAndroid} from 'react-native';
 import CS from '../css/convertSize';
 import Svg, {Path} from 'react-native-svg';
 
@@ -41,13 +41,17 @@ export default class NoteDetails extends Component {
     return !review && x !== 0 && y !== 0;
   };
 
-  _handlePanResponderEnd(e, gestureState) {
+  async _handlePanResponderEnd(e, gestureState) {
     const {getPost, ubId, post} = this.props;
-    if (gestureState.dx < -100) {
+    let ok = true;
+    if (gestureState.dx < -60) {
       // 下一个
-      getPost(ubId, post.Page + 1)
-    } else if (gestureState.dx > 100) {
-      getPost(ubId, post.Page - 1)
+      ok = await getPost(ubId, post.Page + 1);
+    } else if (gestureState.dx > 60) {
+      ok = await getPost(ubId, post.Page - 1)
+    }
+    if (!ok) {
+      ToastAndroid.show('request timeout', ToastAndroid.SHORT);
     }
   };
 

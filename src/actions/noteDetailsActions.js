@@ -2,7 +2,7 @@ import {createAction} from 'redux-actions';
 import {getPostById, getReviews} from '../api/posts';
 import {addReciteApi, upLevelApi} from '../api/recite';
 
-const post = createAction('POST', getPostById);
+// const post = createAction('POST', getPostById);
 
 const pushToPost = createAction('POST');
 
@@ -29,7 +29,12 @@ const getPost = (ubId, pageId) => {
       if (postData) {
         dispatch(pushToPost(postData));
       } else {
-        dispatch(post(ubId, pageId));
+        const isPost = await getPostById(ubId, pageId);
+        if (isPost) {
+          dispatch(pushToPost(isPost));
+        } else {
+          return false;
+        }
       }
     }
     return true
