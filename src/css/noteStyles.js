@@ -89,7 +89,7 @@ justify-content: center;
 align-items: center;
 width: 100%;
 height: ${CS.h(22)}px;
-background: ${colors.gray038};
+background: ${props => props.active ?  colors.main : colors.gray038};
 `;
 const ButtonText = YaHeiText.extend`
 font-size: 12;
