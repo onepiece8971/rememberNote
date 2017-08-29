@@ -4,7 +4,7 @@ const posts = handleActions({
   ['POSTS']: (posts, {payload}) => {
     if (payload.json) {
       if (posts[payload.id]) {
-        payload.json.unshift(...posts[payload.id]);
+        payload.json = {...payload.json, ...posts[payload.id]};
       }
       return {...posts, [payload.id]: payload.json}
     }

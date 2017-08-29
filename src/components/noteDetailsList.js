@@ -65,7 +65,8 @@ const PostMax = 50;
 export default NoteDetailsList = ({navigation, posts, userBooksId, userBooksName, getPost, getPosts}) => {
   if (posts) {
     const data = [];
-    posts.map(function(v, i) {
+    for (let i in posts) {
+      let v = posts[i];
       const content = v.Content.split("\n")[3];
       data.push({
         key:      i,
@@ -75,11 +76,11 @@ export default NoteDetailsList = ({navigation, posts, userBooksId, userBooksName
         level:    v.Level,
         page:     v.Page,
       });
-    });
+    }
     return (
       <Menu>
         <MainView>
-          <Top back={true} navigation={navigation} />
+          <Top back={true} navigation={navigation} search={{type: 'postsList', data: userBooksId}} />
           <ContentView>
             <TopView>
               <TopText>{userBooksName}</TopText>
@@ -93,7 +94,7 @@ export default NoteDetailsList = ({navigation, posts, userBooksId, userBooksName
                 {length: CS.h(84), offset: CS.h(84) * index, index}
               )}
               refreshing={true}
-              onEndReached={() => getPosts(userBooksId, Math.ceil(posts.length / PostMax) + 1)}
+              onEndReached={() => getPosts(userBooksId, Math.ceil(Object.keys(posts).length / PostMax) + 1)}
               onEndReachedThreshold={0.2}
             />
           </ContentView>

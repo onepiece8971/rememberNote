@@ -34,7 +34,8 @@ export default class NoteDetails extends Component {
   };
 
   _handleMoveShouldSetPanResponder(e, gestureState) {
-    const {review} = this.props;
+    const {navigation} = this.props;
+    const {review} = navigation.state.params || {review: false};
     const x        = gestureState.dx;
     const y        = gestureState.dy;
     return !review && x !== 0 && y !== 0;

@@ -33,4 +33,13 @@ const getReviews = async (userBooksId) => {
   }
 };
 
-export {getPostsByUserBooksId, getPostById, getReviews}
+const getPostByNameApi = async (ubId, name) => {
+  try {
+    let response = await fetch(url + 'getPostByName/' + ubId + '/' + name);
+    return await response.json();
+  } catch(e) {
+    console.log("Oops, error", e);
+  }
+};
+
+export {getPostsByUserBooksId, getPostById, getReviews, getPostByNameApi}

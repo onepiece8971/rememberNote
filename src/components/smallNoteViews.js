@@ -26,7 +26,7 @@ export default SmallNoteViews = ({item, getUserBooksId, getPostsInit, ...rest}) 
       <TextView>
         <TitleText onPress={() => {
           getUserBooksId(item.id);
-//           history.push('/noteDetailsList/' + item.id);
+          // 初始化posts数据
           getPostsInit(item.id, 1);
           globalNavigation.navigate('NoteDetailsList');
         }}>{item.name}</TitleText>

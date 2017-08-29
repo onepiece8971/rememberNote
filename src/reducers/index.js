@@ -6,6 +6,7 @@ import home from './home';
 import remember from './remember';
 import posts from './noteDetailsList';
 import post from './noteDetails';
+import top from './top';
 
 //使用redux的combineReducers方法将所有reducer打包起来
 const rootReducer = combineReducers({
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
   remember,
   posts,
   post,
+  top
 });
 
 export default rootReducer;

@@ -17,18 +17,22 @@ const upLevel = createAction('UPLEVEL', upLevelApi);
 const addPoint = createAction('POINT');
 
 const getPost = (ubId, pageId) => {
-  return (dispatch, getState) => {
+  return async (dispatch, getState) => {
     const state = getState();
     const usedPages = state.remember.userBooks.userBooks[ubId].UsedPages;
+    const postData = state.posts[ubId][pageId];
     if (pageId < 1 || pageId > usedPages) {
       return false
     }
     const current = state.post.current;
-    if (current.UserBooksId === ubId && current.Page === pageId) {
-      return true
-    } else {
-      dispatch(post(ubId, pageId));
+    if (current.UserBooksId !== ubId || current.Page !== pageId) {
+      if (postData) {
+        dispatch(pushToPost(postData));
+      } else {
+        dispatch(post(ubId, pageId));
+      }
     }
+    return true
   }
 };
 

@@ -237,7 +237,7 @@ export default class MarkDown extends Component {
   constructor() {
     super();
     this.state = {
-      isHide: true,
+      isHide: false,
       haveHide: false
     };
   }
@@ -250,15 +250,17 @@ export default class MarkDown extends Component {
     }
   };
 
-  componentWillReceiveProps() {
+  componentWillMount() {
     this.setState({
-      isHide: this.props.hide,
+      isHide: this.props.hide || false,
     });
   }
 
-  defaultProps = {
-    hide: false
-  };
+  componentWillReceiveProps() {
+    this.setState({
+      isHide: this.props.hide || false,
+    });
+  }
 
   render() {
     let child = this.props.children || '';

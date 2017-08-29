@@ -25,11 +25,11 @@ export default class Main extends Component {
     globalNavigation = navigation;
   }
   render() {
-    const {route} = this.props;
+    const {route, navigation} = this.props;
     return (
       <Menu>
         <MainView>
-          <Top />
+          <Top navigation={navigation} />
           <MainRoute route={route} />
           <Bottom/>
         </MainView>
