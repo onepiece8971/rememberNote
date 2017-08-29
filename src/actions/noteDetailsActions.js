@@ -33,7 +33,7 @@ const getPost = (ubId, pageId) => {
         if (isPost) {
           dispatch(pushToPost(isPost));
         } else {
-          return false;
+          return 'error';
         }
       }
     }

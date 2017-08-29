@@ -21,10 +21,10 @@ const styles = {
     fontSize: 16
   },
   heading5: {
-    fontSize: 13
+    fontSize: 12,
   },
   heading6: {
-    fontSize: 11
+    fontSize: 10,
   },
   italic: {
     fontStyle: 'italic'

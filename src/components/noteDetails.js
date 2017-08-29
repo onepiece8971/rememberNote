@@ -43,14 +43,14 @@ export default class NoteDetails extends Component {
 
   async _handlePanResponderEnd(e, gestureState) {
     const {getPost, ubId, post} = this.props;
-    let ok = true;
+    let ok = '';
     if (gestureState.dx < -60) {
       // 下一个
       ok = await getPost(ubId, post.Page + 1);
     } else if (gestureState.dx > 60) {
       ok = await getPost(ubId, post.Page - 1)
     }
-    if (!ok) {
+    if (ok === 'error') {
       ToastAndroid.show('request timeout', ToastAndroid.SHORT);
     }
   };
