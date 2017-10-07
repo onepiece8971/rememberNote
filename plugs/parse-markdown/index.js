@@ -7,6 +7,9 @@ import {
 } from 'react-native';
 import Sound from 'react-native-sound';
 
+const nullImage = 'http://qxu2148090265.my3w.com/null.png',
+      soundImage = 'http://qxu2148090265.my3w.com/sound@3x.png';
+
 const styles = {
   heading1: {
     fontSize: 32
@@ -90,7 +93,7 @@ const defaultRules = (styles = Styles) => ({
       {
         key:    key,
 //       resizeMode: styles.resizeMode ? styles.resizeMode : 'contain',
-        source: content.uri ? {uri: content.uri} : require('./null.png'),
+        source: content.uri ? {uri: content.uri} : {uri: nullImage},
         style:  styles.image
       }
     )
@@ -222,7 +225,7 @@ const Audio = ({uri}) => {
       paddingLeft: 10,
       paddingRight: 10,
     }}>
-      <Image source={require('./sound@3x.png')} style={{
+      <Image source={{uri: soundImage}} style={{
         width: 50,
         height: 50,
       }} />
